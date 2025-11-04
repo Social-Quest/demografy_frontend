@@ -28,6 +28,15 @@ const testimonials = [
 ]
 
 function Testimonials() {
+    const handleScrollToPricing = () => {
+        const el = document.getElementById('pricing-cta')
+        if (el) {
+            const baseOffset = window.innerWidth >= 1024 ? 200 : window.innerWidth >= 768 ? 160 : 140
+            const targetPosition = el.getBoundingClientRect().top + window.scrollY - baseOffset
+            window.scrollTo({ top: Math.max(0, targetPosition), behavior: 'smooth' })
+        }
+    }
+
     return (
         <section className="bg-[#F3F4F6] py-20 md:py-24" id="use-case">
             <div className="mx-auto w-full max-w-[1200px] px-4 md:px-6">
@@ -86,7 +95,9 @@ function Testimonials() {
                                 </p>
                             </FadeInUp>
                             <FadeInUp delay={0.8}>
-                                <GradientButton className="mt-6 w-fit">Get early access</GradientButton>
+                                <GradientButton className="mt-6 w-fit" onClick={handleScrollToPricing}>
+                                    Get early access
+                                </GradientButton>
                             </FadeInUp>
                         </div>
                     </SlideInLeft>

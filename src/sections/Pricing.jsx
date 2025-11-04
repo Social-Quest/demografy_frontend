@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import pricingBG from '../assets/pricingBG.png'
 import GradientButton from '../components/GradientButton.jsx'
 import checkIcon from '../assets/arrowLeftPurple.svg'
 import trueIcon from '../assets/true.svg'
 import priceHero from '../assets/price.jpg'
 import { useNavigate } from 'react-router-dom'
+import { submitEarlyAccessEmail } from '../services/authApi.js'
 
 const plans = [
     {
@@ -59,6 +61,25 @@ function Pricing() {
     const navigate = useNavigate()
     const handleSignup = () => {
         navigate('/signup')
+    }
+    const [email, setEmail] = useState('')
+    const [status, setStatus] = useState('idle')
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const handleFormSubmit = async (event) => {
+        event.preventDefault()
+
+        setStatus('loading')
+        setErrorMessage('')
+
+        try {
+            await submitEarlyAccessEmail(email)
+            setStatus('success')
+            setEmail('')
+        } catch (error) {
+            setStatus('error')
+            setErrorMessage(error.message || 'Unable to submit right now. Please try again later.')
+        }
     }
     return (
         <section id="pricing" className="relative overflow-hidden bg-[#f3f4f6] py-20 md:py-24">
@@ -140,7 +161,7 @@ function Pricing() {
                                     </ul>
 
                                     <div className="mt-auto pt-10">
-                                        <GradientButton variant="secondary" className="w-full">
+                                        <GradientButton variant="secondary" className="w-full" onClick={handleSignup}>
                                             Get notified
                                         </GradientButton>
                                     </div>
@@ -159,7 +180,7 @@ function Pricing() {
                     ))}
                 </div>
 
-                <div className="relative overflow-hidden rounded-[36px] bg-white mt-10 p-8 md:p-14">
+                <div id="pricing-cta" className="relative overflow-hidden rounded-[36px] bg-white mt-10 p-8 md:p-14 scroll-mt-[140px] md:scroll-mt-[160px] lg:scroll-mt-[200px]">
                     <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
                         <span className="inline-flex items-center gap-2 rounded-full bg-[#ede9fe] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
                             <span className="h-1.5 w-1.5 rounded-full bg-[#8b5cf6]" /> Ready?
@@ -171,16 +192,38 @@ function Pricing() {
                         <p className="max-w-xl text-sm text-[#495058] md:text-base">
                             Stop wading through conflicting opinions and start making confident, data-backed decisions. The best time to get ahead was yesterday. The next best time is now.
                         </p>
-                        <form className="flex w-full max-w-lg flex-col gap-3 sm:flex-row sm:items-center">
+                        <form
+                            className="flex w-full max-w-lg flex-col gap-3 sm:flex-row sm:items-center"
+                            onSubmit={handleFormSubmit}
+                        >
                             <input
                                 type="email"
+                                name="email"
                                 placeholder="yourmail@gmail.com"
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
                                 className="h-12 w-full rounded-xl border border-white/70 bg-[#E5E7EB] px-4 text-sm text-[#374151] outline-none focus:border-[#8b5cf6] focus:ring-2 focus:ring-[#8b5cf6]/40"
+                                aria-label="Email address"
+                                disabled={status === 'loading'}
+                                required
                             />
-                            <GradientButton className=" w-full h-12 py-4 sm:w-auto" onClick={handleSignup}   showIcon={false}>
-                              Sign-up
+                            <GradientButton
+                                type="submit"
+                                className="w-full h-12 py-4 sm:w-auto"
+                                showIcon={false}
+                                disabled={status === 'loading'}
+                            >
+                                {status === 'loading' ? 'Submitting…' : 'Sign-up'}
                             </GradientButton>
                         </form>
+                        {status === 'success' ? (
+                            <p className="text-sm font-medium text-emerald-600">
+                                Thanks! You’re on the list. We’ll reach out soon.
+                            </p>
+                        ) : null}
+                        {status === 'error' && errorMessage ? (
+                            <p className="text-sm font-medium text-red-600">{errorMessage}</p>
+                        ) : null}
                     </div>
 
                     <div className="mt-12 overflow-hidden rounded-[24px] border border-white/60">

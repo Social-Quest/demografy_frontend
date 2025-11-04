@@ -39,7 +39,7 @@ const featuresData = [
     highlightCards: [],
     cta: {
       label: 'Compare suburbs',
-      href: '#suburb-compare',
+      href: '#pricing-cta',
     },
     image: features2,
   },
@@ -68,6 +68,20 @@ const featuresData = [
 ]
 
 function Features() {
+  const handleCtaClick = (href) => {
+    if (!href) return
+    if (href.startsWith('#')) {
+      const target = document.getElementById(href.slice(1))
+      if (target) {
+        const baseOffset = window.innerWidth >= 1024 ? 200 : window.innerWidth >= 768 ? 160 : 140
+        const targetPosition = target.getBoundingClientRect().top + window.scrollY - baseOffset
+        window.scrollTo({ top: Math.max(0, targetPosition), behavior: 'smooth' })
+      }
+      return
+    }
+    window.location.assign(href)
+  }
+
   return (
     <section id="features" className="relative overflow-hidden py-16 md:py-24">
       <FadeInUp>
@@ -153,11 +167,7 @@ function Features() {
                   <FadeInUp delay={0.4}>
                     <GradientButton
                       className="mt-10"
-                      onClick={() => {
-                        if (feature.cta?.href) {
-                          window.location.assign(feature.cta.href)
-                        }
-                      }}
+                      onClick={() => handleCtaClick(feature.cta?.href)}
                     >
                       {feature.cta.label}
                     </GradientButton>

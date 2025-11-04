@@ -6,6 +6,15 @@ import { FadeInUp, FadeIn } from '../utils/animations.jsx'
 import { Link } from 'react-router-dom'
 
 function Hero() {
+  const scrollToPricing = () => {
+    const pricingCta = document.getElementById('pricing-cta')
+    if (pricingCta) {
+      const baseOffset = window.innerWidth >= 1024 ? 200 : window.innerWidth >= 768 ? 160 : 140
+      const targetPosition = pricingCta.getBoundingClientRect().top + window.scrollY - baseOffset
+      window.scrollTo({ top: Math.max(0, targetPosition), behavior: 'smooth' })
+    }
+  }
+
   return (
     <section id="hero" className="relative overflow-hidden">
       {/* background image */}
@@ -37,7 +46,9 @@ function Hero() {
             <FadeInUp delay={0.4}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link to="#features" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-900 shadow-sm transition-colors hover:bg-slate-50">Discover more</Link>
-                <GradientButton className="justify-center">Get early access</GradientButton>
+                <GradientButton className="justify-center" onClick={scrollToPricing}>
+                  Get early access
+                </GradientButton>
               </div>
             </FadeInUp>
           </div>

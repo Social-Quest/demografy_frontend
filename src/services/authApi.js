@@ -108,3 +108,35 @@ export async function deleteUser() {
   return request('/delete', { method: 'DELETE', requiresAuth: true })
 }
 
+export async function submitEarlyAccessEmail(email) {
+  const formspreeFormId = import.meta.env?.VITE_FORMSPREE_FORM_ID
+  const formEndpoint = `https://formspree.io/f/${formspreeFormId}`
+
+  if (!email || !email.trim()) {
+    throw new Error('Please enter a valid email address.')
+  }
+
+  const response = await fetch(formEndpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({ email: email.trim() }),
+  })
+
+  let data
+  try {
+    data = await response.json()
+  } catch (error) {
+    data = {}
+  }
+
+  if (!response.ok) {
+    const message = data?.error || 'Something went wrong. Please try again later.'
+    throw new Error(message)
+  }
+
+  return data
+}
+
