@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react'
+import { MapPin, Home, UserCheck } from 'lucide-react'
+import CustomSelect from '../../components/CustomSelect.jsx'
 import { NumberInput, ResultCard, formatCurrency } from './utils.jsx'
 
 function StampDutyCalculator() {
@@ -71,44 +73,53 @@ function StampDutyCalculator() {
         <NumberInput label="Property price" prefix="$" value={price} onChange={setPrice} />
 
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-slate-700">State / Territory</span>
-          <select
-            className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          <span className="text-sm font-medium text-slate-700 flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-slate-500" />
+            State / Territory
+          </span>
+          <CustomSelect
             value={state}
             onChange={(e) => setState(e.target.value)}
-          >
-            {['NSW', 'VIC', 'QLD', 'SA', 'WA', 'TAS', 'ACT', 'NT'].map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+            options={['NSW', 'VIC', 'QLD', 'SA', 'WA', 'TAS', 'ACT', 'NT'].map((option) => ({
+              value: option,
+              label: option,
+            }))}
+            placeholder="Select state"
+          />
         </label>
 
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-slate-700">Property type</span>
-          <select
-            className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          <span className="text-sm font-medium text-slate-700 flex items-center gap-2">
+            <Home className="h-4 w-4 text-slate-500" />
+            Property type
+          </span>
+          <CustomSelect
             value={propertyType}
             onChange={(e) => setPropertyType(e.target.value)}
-          >
-            <option value="established">Established home</option>
-            <option value="new">New home</option>
-            <option value="land">Vacant land</option>
-            <option value="investment">Investment property</option>
-          </select>
+            options={[
+              { value: 'established', label: 'Established home' },
+              { value: 'new', label: 'New home' },
+              { value: 'land', label: 'Vacant land' },
+              { value: 'investment', label: 'Investment property' },
+            ]}
+            placeholder="Select property type"
+          />
         </label>
 
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-slate-700">First home buyer?</span>
-          <select
-            className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          <span className="text-sm font-medium text-slate-700 flex items-center gap-2">
+            <UserCheck className="h-4 w-4 text-slate-500" />
+            First home buyer?
+          </span>
+          <CustomSelect
             value={isFirstHomeBuyer}
             onChange={(e) => setIsFirstHomeBuyer(e.target.value)}
-          >
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
+            options={[
+              { value: 'yes', label: 'Yes' },
+              { value: 'no', label: 'No' },
+            ]}
+            placeholder="Select option"
+          />
         </label>
       </div>
 

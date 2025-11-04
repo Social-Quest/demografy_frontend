@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react'
+import { Users } from 'lucide-react'
+import CustomSelect from '../../components/CustomSelect.jsx'
 import { NumberInput, ResultCard, formatCurrency } from './utils.jsx'
 
 function BorrowingPowerCalculator() {
@@ -55,18 +57,19 @@ function BorrowingPowerCalculator() {
         <NumberInput label="Monthly expenses" prefix="$" value={expenses} onChange={setExpenses} />
         <NumberInput label="Existing debts (monthly)" prefix="$" value={debts} onChange={setDebts} />
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-slate-700">Dependents</span>
-          <select
-            className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          <span className="text-sm font-medium text-slate-700 flex items-center gap-2">
+            <Users className="h-4 w-4 text-slate-500" />
+            Dependents
+          </span>
+          <CustomSelect
             value={dependents}
             onChange={(e) => setDependents(Number(e.target.value))}
-          >
-            {[0, 1, 2, 3, 4, 5].map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+            options={[0, 1, 2, 3, 4, 5].map((option) => ({
+              value: option,
+              label: option.toString(),
+            }))}
+            placeholder="Select dependents"
+          />
         </label>
         <NumberInput label="Deposit available" prefix="$" value={deposit} onChange={setDeposit} />
       </div>

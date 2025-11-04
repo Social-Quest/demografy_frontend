@@ -42,7 +42,7 @@ export default function PropertyCalculator() {
               key={calc.id}
               type="button"
               onClick={() => setActiveCalculator(calc.id)}
-              className={`cursor-pointer rounded-full border px-5 py-2 text-sm font-medium transition ${
+              className={`cursor-pointer rounded-full border border-[#e5e7eb] px-5 py-2 text-sm font-medium transition ${
                 activeCalculator === calc.id
                   ? 'border-transparent bg-[#8b5cf6] text-white shadow-lg shadow-primary/30'
                   : 'border-transparent bg-white/70 text-primary/70 hover:text-primary hover:shadow'

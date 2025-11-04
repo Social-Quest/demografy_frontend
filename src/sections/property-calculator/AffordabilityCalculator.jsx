@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react'
-import { NumberInput, ResultCard, formatCurrency } from './utils.jsx'
+import { MapPin } from 'lucide-react'
+import CustomSelect from '../../components/CustomSelect.jsx'
+import { NumberInput, RangeInput, ResultCard, formatCurrency } from './utils.jsx'
 
 const suburbData = {
   NSW: [
@@ -103,49 +105,39 @@ function AffordabilityCalculator() {
         <NumberInput label="Household income" prefix="$" value={income} onChange={setIncome} />
         <NumberInput label="Deposit saved" prefix="$" value={deposit} onChange={setDeposit} />
         <NumberInput label="Monthly expenses" prefix="$" value={expenses} onChange={setExpenses} />
-        <div className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-slate-700">Estimated interest rate (%)</span>
-          <div className="flex items-center gap-3">
-            <input
-              type="range"
-              min={4}
-              max={9}
-              step={0.1}
-              value={rate}
-              onChange={(e) => setRate(Number(e.target.value))}
-              className="h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200"
-            />
-            <span className="w-16 text-right text-sm font-semibold text-primary">{rate.toFixed(1)}%</span>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-slate-700">Loan term (years)</span>
-          <div className="flex items-center gap-3">
-            <input
-              type="range"
-              min={15}
-              max={30}
-              step={5}
-              value={term}
-              onChange={(e) => setTerm(Number(e.target.value))}
-              className="h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200"
-            />
-            <span className="w-16 text-right text-sm font-semibold text-primary">{term}y</span>
-          </div>
-        </div>
+        <RangeInput
+          label="Estimated interest rate (%)"
+          value={rate}
+          onChange={setRate}
+          min={4}
+          max={9}
+          step={0.1}
+          formatValue={(val) => val.toFixed(1)}
+          suffix="%"
+        />
+        <RangeInput
+          label="Loan term (years)"
+          value={term}
+          onChange={setTerm}
+          min={15}
+          max={30}
+          step={5}
+          suffix="y"
+        />
         <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-slate-700">State / Territory</span>
-          <select
-            className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 cursor-pointer"
+          <span className="text-sm font-medium text-slate-700 flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-slate-500" />
+            State / Territory
+          </span>
+          <CustomSelect
             value={state}
             onChange={(e) => setState(e.target.value)}
-          >
-            {Object.keys(suburbData).map((key) => (
-              <option key={key} value={key} className="cursor-pointer">
-                {key}
-              </option>
-            ))}
-          </select>
+            options={Object.keys(suburbData).map((key) => ({
+              value: key,
+              label: key,
+            }))}
+            placeholder="Select state"
+          />
         </label>
       </div>
 

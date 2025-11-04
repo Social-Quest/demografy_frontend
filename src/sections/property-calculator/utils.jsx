@@ -43,3 +43,27 @@ export function NumberInput({ label, prefix, value, onChange }) {
   )
 }
 
+export function RangeInput({ label, value, onChange, min, max, step = 1, formatValue, suffix = '' }) {
+  const displayValue = formatValue ? formatValue(value) : value
+
+  return (
+    <div className="flex flex-col gap-2">
+      <span className="text-sm font-medium text-slate-700">{label}</span>
+      <div className="flex items-center gap-3">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="range-input-primary h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200"
+        />
+        <span className="w-16 text-right text-sm font-semibold text-primary">
+          {displayValue}{suffix}
+        </span>
+      </div>
+    </div>
+  )
+}
+
