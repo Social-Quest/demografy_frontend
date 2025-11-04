@@ -20,10 +20,6 @@ function Footer() {
           Designed and built with love • All rights reserved Andrea Montini | Copyright© 2024
         </p>
 
-        {/* Button */}
-        <div className="flex justify-center">
-          <GradientButton className="w-full max-w-xs justify-center lg:max-w-none">Get this Template</GradientButton>
-        </div>
       </div>
     </footer>
   )

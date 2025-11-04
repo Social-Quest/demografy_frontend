@@ -6,6 +6,7 @@ import featureIcon2 from '../assets/featuresIcon2.svg'
 import GradientButton from '../components/GradientButton.jsx'
 import arrowDown from '../assets/arrowDown.svg'
 import { FadeInUp, FadeIn, SlideInLeft, SlideInRight } from '../utils/animations.jsx'
+import { useNavigate } from 'react-router-dom'
 
 const featuresData = [
   {
@@ -68,6 +69,8 @@ const featuresData = [
 ]
 
 function Features() {
+  const navigate = useNavigate()
+
   const handleCtaClick = (href) => {
     if (!href) return
     if (href.startsWith('#')) {
@@ -155,9 +158,12 @@ function Features() {
                             <h3 className="text-lg font-semibold text-slate-900">{card.title}</h3>
                             <p className="mt-2 text-sm text-slate-600 md:text-base">{card.description}</p>
                           </div>
-                          <button className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[#374151] transition-colors cursor-pointer">
+                          <button
+                            onClick={() => navigate('/login')}
+                            className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-[#374151] transition-colors hover:text-primary cursor-pointer"
+                          >
                             Learn more
-                           <img src={arrowDown} alt="Arrow right" className="w-6 h-6" />
+                            <img src={arrowDown} alt="Arrow right" className="w-6 h-6" />
                           </button>
                         </div>
                       </FadeInUp>
