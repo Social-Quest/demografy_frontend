@@ -1,0 +1,245 @@
+[
+  {
+    "Field Name": "kpi_1_val",
+    "Source": "3",
+    "KPI Name": "Prosperity Score",
+    "KPI calculation": "AVG (IHAD)",
+    "Metric note": "Measures the relative advantage or disadvantage of households based on income, occupation, education, housing, and related characteristics. Higher scores indicate greater advantage, and lower scores indicate greater disadvantage.  The index is standardised with a mean of 1000 and a standard deviation of 100.",
+    "Ranking": "High to low",
+    "Index Calculation": "(X-min)/(max-min)"
+  },
+  {
+    "Field Name": "kpi_2_val",
+    "Source": "4",
+    "KPI Name": "Diversity Index",
+    "KPI calculation": "1- {(G1222/G1240)^2 + (G1216/G1240)^2  +.......)",
+    "Metric note": "\"Measures how culturally diverse a suburb is based on the distribution of ancestries. CDI close to 1 means very culturally diverse (no single ancestry dominates). CDI close to 0 means homogeneous population (one ancestry dominates). A rising CDI over time can signal a transitioning suburb",
+    "Ranking": "potentially early in its property growth cycle. Metric varies from 0 to 1.",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "\" ",
+    "Source": "High to Low",
+    "KPI Name": "(X-min)/(max-min)",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "kpi_3_val",
+    "Source": "4",
+    "KPI Name": "Migration Footprint",
+    "KPI calculation": "\"Sum(Both_parents_born_overseas+Mother_only_born_overseas+Father_only_born_overseas) * 100 /",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "Total_Persons_Total_responses\"",
+    "Source": "Indicates how international the suburb’s population background is, by measuring % of residents have at least one parent born overseas. Metric varies from 0 to 100%. Can be a proxy for migration-driven demand and social change",
+    "KPI Name": "High to low",
+    "KPI calculation": "(X-min)/(max-min)",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "kpi_4_val",
+    "Source": "5",
+    "KPI Name": "Learning Level",
+    "KPI calculation": "\"(High_yr_schl_comp_Yr_12_eq_P *100)",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "/ Tot_P_P",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "​\"",
+    "Source": "Measures the overall education level of residents by measuring % of residents that have completed high-school. Highly educated suburbs tend to have higher incomes, attract better amenities, and experience steadier property growth. Metric varies from 0 to 100%.",
+    "KPI Name": "High to low",
+    "KPI calculation": "(X-min)/(max-min)",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "kpi_5_val",
+    "Source": "7",
+    "KPI Name": "Social Housing",
+    "KPI calculation": "\"(R_ST_h_auth_Total+R_Com_Hp_Total)/Total_Total",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "​",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "\"",
+    "Source": "Measures the % of public or community housing in the suburb. Very high percentages can suggest socio-economic disadvantage. Metric varies from 0 to 100%.",
+    "KPI Name": "Low to high",
+    "KPI calculation": "(max-X)/(max-min)",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "kpi_6_val",
+    "Source": "7",
+    "KPI Name": "Resident Equity",
+    "KPI calculation": "\"(O_OR_Total+O_MTG_Total)* 100/Total_Total",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "\"",
+    "Source": "\"Indicates the proportion of dwellings that are owned outright or with a mortgage. Higher ownership rates are usually associated with greater stability",
+    "KPI Name": "lower transience",
+    "KPI calculation": "and stronger local investment. Metric varies from 0 to 100%.",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "\"",
+    "Source": "High to Low",
+    "KPI Name": "(X-min)/(max-min)",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "kpi_7_val",
+    "Source": "9",
+    "KPI Name": "Rental Access",
+    "KPI calculation": "\"(Number of dwellings paying < A$450",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "per week)​*100/ Tot_Tot\"",
+    "Source": "\"Proportion of dwellings renting below a threshold ($450 per week). Indicates affordability — lower value suburbs are more affordable and will be of interest to renters. Metric varies from 0 to 100%.",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "\"",
+    "Source": "High to Low",
+    "KPI Name": "(X-min)/(max-min)",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "kpi_8_val",
+    "Source": "10",
+    "KPI Name": "Resident Anchor",
+    "KPI calculation": "\"Sme_Usl_ad_5_yr_ago_as_2021_P*100/",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "Total_Persons",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "​",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "\"",
+    "Source": "\"Measures how long residents tend to stay in the suburb",
+    "KPI Name": "as measured by % of residents who stayed in the same community for 5 years or more. Higher values mean lower turnover and more stable",
+    "KPI calculation": "tight knit communities. Metric varies from 0 to 100%.",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "\"",
+    "Source": "High to low",
+    "KPI Name": "(X-min)/(max-min)",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "Final score = Sum of all indices",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  },
+  {
+    "Field Name": "Higher the better",
+    "Source": "",
+    "KPI Name": "",
+    "KPI calculation": "",
+    "Metric note": "",
+    "Ranking": "",
+    "Index Calculation": ""
+  }
+]

@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+html, body, #root {
+  height: 100%;
+}
+
+html {
+  font-family: "Inter", "Intel One Mono";
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; 
+  text-rendering: optimizeLegibility;
+}
+
+@layer utilities {
+  .text-primary { color: #8b5cf6; }
+  .hover\:text-primary:hover { color: #8b5cf6; }
+  .bg-primary { background-color: #8b5cf6; }
+  .border-primary { border-color: #8b5cf6; }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  --scroll-speed: 20s; 
+  animation: scroll var(--scroll-speed) linear infinite;
+  transition: all 0.5s ease;
+}
+
+.group:hover .animate-scroll {
+  --scroll-speed: 60s; 
+  transition: all 0.5s ease;  
+}
+
+
+@keyframes shimmer-top {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(100%);
+    opacity: 1;
+  }
+  51% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer-right {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  55% {
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+  76% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes shimmer-bottom {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 1;
+  }
+  95% {
+    transform: translateX(-100%);
+    opacity: 1;
+  }
+  96% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animated-border {
+  position: relative;
+  border-radius: 32px;
+  padding: 3px;
+  background: #f9fafb;
+  overflow: hidden;
+}
+
+.animated-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(139, 92, 246, 0), rgba(139, 92, 246, 1), rgba(139, 92, 246, 0));
+  border-radius: 32px;
+  animation: shimmer-top 4s linear infinite;
+  z-index: 10;
+}
+
+.animated-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(139, 92, 246, 0), rgba(139, 92, 246, 1), rgba(139, 92, 246, 0));
+  border-radius: 32px;
+  animation: shimmer-right 4s linear infinite;
+  z-index: 10;
+}
+
+.animated-border-content {
+  position: relative;
+  background: #f9fafb;
+  border-radius: 29px;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
