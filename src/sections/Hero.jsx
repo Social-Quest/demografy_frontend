@@ -3,6 +3,7 @@ import dashboardImg from '../assets/dashboard.jpg'
 import dashboardBG from '../assets/dashboardBG.png'
 import PartnersSlider from './PartnersSlider.jsx'
 import { FadeInUp, FadeIn } from '../utils/animations.jsx'
+import { Link } from 'react-router-dom'
 
 function Hero() {
   return (
@@ -35,7 +36,7 @@ function Hero() {
             </FadeInUp>
             <FadeInUp delay={0.4}>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <a href="#features" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-900 shadow-sm transition-colors hover:bg-slate-50">Discover more</a>
+                <Link to="#features" className="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-900 shadow-sm transition-colors hover:bg-slate-50">Discover more</Link>
                 <GradientButton className="justify-center">Get early access</GradientButton>
               </div>
             </FadeInUp>
