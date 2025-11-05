@@ -1,32 +1,29 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Calendar } from 'lucide-react'
 import CustomSelect from '../../components/CustomSelect.jsx'
-import { NumberInput, RangeInput, ResultCard, formatCurrency } from './utils.jsx'
+import { NumberInput, RangeInput, ResultCard, CalculateButton, BreakdownSection, FrequencyComparisonSection, formatCurrency } from './utils.jsx'
+import { calculateMortgage } from './calculations.js'
 
 function MortgageCalculator() {
   const [loan, setLoan] = useState(600000)
   const [rate, setRate] = useState(6.5)
   const [term, setTerm] = useState(30)
   const [frequency, setFrequency] = useState('monthly')
+  const [results, setResults] = useState(null)
 
-  const results = useMemo(() => {
-    const paymentsPerYear = frequency === 'monthly' ? 12 : frequency === 'fortnightly' ? 26 : 52
-    const frequencyLabel = frequency === 'monthly' ? 'per month' : frequency === 'fortnightly' ? 'per fortnight' : 'per week'
-    const periodicRate = rate / 100 / paymentsPerYear
-    const totalPayments = term * paymentsPerYear
-    const repayment =
-      loan * (periodicRate * Math.pow(1 + periodicRate, totalPayments)) /
-      (Math.pow(1 + periodicRate, totalPayments) - 1)
-    const totalPaid = repayment * totalPayments
-    const totalInterest = totalPaid - loan
+  const handleCalculate = () => {
+    setResults(calculateMortgage({ loan, rate, term, frequency }))
+  }
 
-    return {
-      repayment,
-      totalInterest,
-      totalPaid,
-      frequencyLabel,
-    }
-  }, [loan, rate, term, frequency])
+  const summaryItems = results?.summary
+    ? [
+        { label: 'Loan amount', value: results.summary.loanAmount, formatValue: formatCurrency },
+        { label: 'Interest rate', value: results.summary.interestRate, formatValue: (val) => `${val.toFixed(2)}% p.a.` },
+        { label: 'Loan term', value: results.summary.termYears, formatValue: (val) => `${val} years` },
+        { label: 'Total interest paid', value: results.summary.totalInterest, formatValue: formatCurrency },
+        { label: 'Total amount repayable', value: results.summary.totalRepaid, formatValue: formatCurrency },
+      ]
+    : []
 
   return (
     <div className="rounded-3xl bg-white p-8 shadow-xl">
@@ -77,11 +74,29 @@ function MortgageCalculator() {
         </label>
       </div>
 
-      <dl className="mt-8 grid gap-4 md:grid-cols-3">
-        <ResultCard title="Regular repayment" value={formatCurrency(results.repayment)} helper={results.frequencyLabel} />
-        <ResultCard title="Total interest" value={formatCurrency(results.totalInterest)} helper="over loan term" />
-        <ResultCard title="Total repayable" value={formatCurrency(results.totalPaid)} />
-      </dl>
+      <CalculateButton onClick={handleCalculate}>Calculate repayments</CalculateButton>
+
+      {results ? (
+        <>
+          <dl className="mt-8 grid gap-4 md:grid-cols-3">
+            <ResultCard title="Regular repayment" value={formatCurrency(results.repayment)} helper={results.frequencyLabel} />
+            <ResultCard title="Total interest" value={formatCurrency(results.totalInterest)} helper="over loan term" />
+            <ResultCard title="Total repayable" value={formatCurrency(results.totalRepaid)} />
+          </dl>
+
+          <BreakdownSection title="Loan summary" items={summaryItems} />
+
+          <FrequencyComparisonSection comparison={results.comparison} formatCurrency={formatCurrency} />
+
+          <div className="mt-6 rounded-2xl border border-amber-100 bg-amber-50 p-5 text-sm text-amber-700">
+            <strong className="font-semibold">Tip:</strong> Making repayments more frequently (weekly or fortnightly) can save you thousands in interest and help you pay off your loan faster!
+          </div>
+        </>
+      ) : (
+        <div className="mt-8 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-6 text-sm text-slate-500">
+          Adjust the sliders, choose a frequency, then run the calculation to see repayments and loan summary.
+        </div>
+      )}
     </div>
   )
 }

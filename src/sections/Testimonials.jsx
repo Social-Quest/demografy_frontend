@@ -1,6 +1,6 @@
 import customer1 from '../assets/customer1.png'
 import customer2 from '../assets/customer2.png'
-import useCaseImg from '../assets/useCase.jpg'
+import useCaseImg from '../assets/useCase.png'
 import GradientButton from '../components/GradientButton.jsx'
 import company1 from '../assets/company1.svg'
 import company2 from '../assets/company2.svg'
@@ -38,7 +38,7 @@ function Testimonials() {
     }
 
     return (
-        <section className="bg-[#F3F4F6] py-20 md:py-24" id="use-case">
+        <section className="bg-[#F3F4F6] py-20 md:py-24" >
             <div className="mx-auto w-full max-w-[1200px] px-4 md:px-6">
 
 
@@ -80,7 +80,7 @@ function Testimonials() {
                         </ScaleIn>
                     ))}
                 </div>
-                <div className="grid w-full gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center mt-20">
+                <div id="integrations" className="grid w-full gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center mt-20">
                     <SlideInLeft delay={0.5}>
                         <div className="space-y-6">
                             <FadeInUp delay={0.6}>

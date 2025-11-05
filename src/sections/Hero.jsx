@@ -1,5 +1,5 @@
 import GradientButton from '../components/GradientButton.jsx'
-import dashboardImg from '../assets/dashboard.jpg'
+import dashboardImg from '../assets/dashboard.png'
 import dashboardBG from '../assets/dashboardBG.png'
 import PartnersSlider from './PartnersSlider.jsx'
 import { FadeInUp, FadeIn } from '../utils/animations.jsx'

@@ -1,6 +1,6 @@
-import features1 from '../assets/features1.jpg'
-import features2 from '../assets/features2.jpg'
-import features3 from '../assets/features3.jpg'
+import features1 from '../assets/features1.png'
+import features2 from '../assets/features2.png'
+import features3 from '../assets/features3.png'
 import featureIcon1 from '../assets/featuresIcon1.svg'
 import featureIcon2 from '../assets/featuresIcon2.svg'
 import GradientButton from '../components/GradientButton.jsx'
@@ -86,7 +86,7 @@ function Features() {
   }
 
   return (
-    <section id="features" className="relative overflow-hidden py-16 md:py-24">
+    <section id="features-detailed" className="relative overflow-hidden py-16 md:py-24">
       <FadeInUp>
         <div className="mx-auto w-full max-w-[1200px] px-4 text-center md:px-6">
           <h2 className="text-3xl font-semibold text-slate-900 md:text-5xl">

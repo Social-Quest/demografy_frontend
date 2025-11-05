@@ -196,8 +196,8 @@ function Dashboard() {
         <div className="mx-auto flex w-full flex-col gap-6 md:gap-8 px-4 pb-8 md:px-6 lg:flex-row">
 
         {/* Sidebar - appears between summary cards and table on tablet, left side on desktop */}
-        <aside className="order-2 md:order-2 lg:order-1 w-full md:w-full lg:w-[260px] lg:flex-shrink-0 lg:sticky lg:top-24 lg:self-start">
-          <div className="space-y-4 md:space-y-6">
+        <aside className="order-2 md:order-2 lg:order-1 w-full md:w-full lg:w-[260px] lg:flex-shrink-0 lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto scrollbar-hide">
+          <div className="space-y-4 md:space-y-6 lg:pb-4">
             <Filters
               filters={filters}
               setFilters={setFilters}

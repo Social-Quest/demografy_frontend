@@ -23,8 +23,8 @@ const plans = [
     },
     {
         name: 'The Investor',
-        price: 'A$ 19.90',
-        cadence: '/mo',
+        price: 'Coming Soon',
+        cadence: '',
         description: 'Best value',
         features: [
             'Everything in Scout, plus:',
@@ -38,8 +38,8 @@ const plans = [
     },
     {
         name: 'The Agency',
-        price: 'A$ 49.90',
-        cadence: '/mo',
+        price: 'Coming Soon',
+        cadence: '',
         features: [
             'Everything in Investor, plus',
             'White-Labelled Reports',
@@ -128,8 +128,8 @@ function Pricing() {
                                         </ul>
 
                                         <div className="mt-auto pt-10">
-                                            <GradientButton variant="primary" className="w-full">
-                                                Get notified
+                                            <GradientButton variant="primary" className="w-full" onClick={handleSignup}>
+                                                Sign-up
                                             </GradientButton>
                                         </div>
                                     </article>
@@ -162,7 +162,7 @@ function Pricing() {
 
                                     <div className="mt-auto pt-10">
                                         <GradientButton variant="secondary" className="w-full" onClick={handleSignup}>
-                                            Get notified
+                                            Sign-up
                                         </GradientButton>
                                     </div>
                                 </article>

@@ -1,66 +1,50 @@
-import { useMemo, useState } from 'react'
+ import { useState } from 'react'
 import { MapPin, Home, UserCheck } from 'lucide-react'
 import CustomSelect from '../../components/CustomSelect.jsx'
-import { NumberInput, ResultCard, formatCurrency } from './utils.jsx'
+import { NumberInput, ResultCard, CalculateButton, BreakdownSection, formatCurrency } from './utils.jsx'
+import { calculateStampDuty } from './calculations.js'
 
 function StampDutyCalculator() {
   const [price, setPrice] = useState(750000)
   const [state, setState] = useState('NSW')
   const [propertyType, setPropertyType] = useState('established')
   const [isFirstHomeBuyer, setIsFirstHomeBuyer] = useState('yes')
+  const [results, setResults] = useState(null)
 
-  const results = useMemo(() => {
-    let stampDuty = 0
-    let concession = 0
+  const handleCalculate = () => {
+    const calculation = calculateStampDuty({
+      price,
+      state,
+      propertyType,
+      firstHomeBuyer: isFirstHomeBuyer,
+    })
 
-    if (state === 'NSW') {
-      if (price <= 14000) stampDuty = price * 0.0125
-      else if (price <= 32000) stampDuty = 175 + (price - 14000) * 0.015
-      else if (price <= 85000) stampDuty = 445 + (price - 32000) * 0.0175
-      else if (price <= 319000) stampDuty = 1372.5 + (price - 85000) * 0.035
-      else if (price <= 1064000) stampDuty = 9562.5 + (price - 319000) * 0.045
-      else stampDuty = 43087.5 + (price - 1064000) * 0.055
-
-      if (isFirstHomeBuyer === 'yes' && propertyType !== 'investment') {
-        if (price <= 650000) concession = stampDuty
-        else if (price <= 800000) concession = stampDuty * (800000 - price) / 150000
-      }
-    } else if (state === 'VIC') {
-      if (price <= 25000) stampDuty = price * 0.014
-      else if (price <= 130000) stampDuty = 350 + (price - 25000) * 0.024
-      else if (price <= 960000) stampDuty = 2870 + (price - 130000) * 0.06
-      else stampDuty = 52670 + (price - 960000) * 0.055
-
-      if (isFirstHomeBuyer === 'yes' && propertyType !== 'investment') {
-        if (price <= 600000) concession = stampDuty
-        else if (price <= 750000) concession = stampDuty * (750000 - price) / 150000
-      }
-    } else {
-      stampDuty = price * 0.04
-      if (isFirstHomeBuyer === 'yes' && price <= 600000 && propertyType !== 'investment') {
-        concession = stampDuty * 0.5
-      }
-    }
-
-    const finalDuty = Math.max(0, stampDuty - concession)
-    const transferFee = 150
-    const mortgageReg = 120
-    const legalFees = 1500
-    const totalCosts = finalDuty + transferFee + mortgageReg + legalFees
-
-    return {
-      stampDuty: finalDuty,
-      concession,
-      totalCosts,
+    setResults({
+      stampDuty: calculation.finalDuty,
+      concession: calculation.concession,
+      totalCosts: calculation.totalCosts,
       breakdown: {
         price,
-        base: stampDuty,
-        transferFee,
-        mortgageReg,
-        legalFees,
+        base: calculation.stampDuty,
+        transferFee: calculation.transferFee,
+        mortgageReg: calculation.mortgageReg,
+        legalFees: calculation.legalFees,
+        totalCosts: calculation.totalCosts,
       },
-    }
-  }, [price, state, propertyType, isFirstHomeBuyer])
+    })
+  }
+
+  const breakdownItems = results
+    ? [
+        { label: 'Property price', value: results.breakdown.price, isNegative: false },
+        { label: 'Stamp duty (base)', value: results.breakdown.base, isNegative: false },
+        { label: 'First home buyer concession', value: results.concession, isNegative: true },
+        { label: 'Transfer fee', value: results.breakdown.transferFee, isNegative: false },
+        { label: 'Mortgage registration', value: results.breakdown.mortgageReg, isNegative: false },
+        { label: 'Legal fees (estimated)', value: results.breakdown.legalFees, isNegative: false },
+        { label: 'Total upfront costs', value: results.breakdown.totalCosts, isNegative: false, isTotal: true, fontWeight: 'bold', labelFontWeight: 'semibold', labelColor: 'text-black' },
+      ]
+    : []
 
   return (
     <div className="rounded-3xl bg-white p-8 shadow-xl">
@@ -80,10 +64,16 @@ function StampDutyCalculator() {
           <CustomSelect
             value={state}
             onChange={(e) => setState(e.target.value)}
-            options={['NSW', 'VIC', 'QLD', 'SA', 'WA', 'TAS', 'ACT', 'NT'].map((option) => ({
-              value: option,
-              label: option,
-            }))}
+            options={[
+              { value: 'NSW', label: 'New South Wales' },
+              { value: 'VIC', label: 'Victoria' },
+              { value: 'QLD', label: 'Queensland' },
+              { value: 'SA', label: 'South Australia' },
+              { value: 'WA', label: 'Western Australia' },
+              { value: 'TAS', label: 'Tasmania' },
+              { value: 'ACT', label: 'Australian Capital Territory' },
+              { value: 'NT', label: 'Northern Territory' },
+            ]}
             placeholder="Select state"
           />
         </label>
@@ -123,37 +113,30 @@ function StampDutyCalculator() {
         </label>
       </div>
 
-      <dl className="mt-8 grid gap-4 md:grid-cols-3">
-        <ResultCard title="Stamp duty" value={formatCurrency(results.stampDuty)} />
-        <ResultCard
-          title="Concessions / savings"
-          value={`-${formatCurrency(results.concession)}`}
-        />
-        <ResultCard title="Total upfront costs" value={formatCurrency(results.totalCosts)} helper="Including base fees" />
-      </dl>
+      <CalculateButton onClick={handleCalculate}>Calculate stamp duty</CalculateButton>
 
-      <div className="mt-6 space-y-3 rounded-2xl bg-slate-50 p-5 text-sm text-slate-600">
-        <div className="flex items-center justify-between">
-          <span>Property price</span>
-          <span className="font-semibold text-slate-800">{formatCurrency(results.breakdown.price)}</span>
+      {results ? (
+        <>
+          <dl className="mt-8 grid gap-4 md:grid-cols-3">
+            <ResultCard title="Stamp duty" value={formatCurrency(results.stampDuty)} />
+            <ResultCard
+              title="Concessions / savings"
+              value={`${formatCurrency(results.concession)}`}
+            />
+            <ResultCard title="Total upfront costs" value={formatCurrency(results.totalCosts)} helper="Including base fees" />
+          </dl>
+
+          <BreakdownSection title="Cost breakdown" items={breakdownItems} />
+
+          <div className="mt-6 rounded-2xl border border-amber-100 bg-amber-50 p-5 text-sm text-amber-700">
+            <strong className="font-semibold">Note:</strong>Stamp duty rates and concessions vary by state and are subject to change. This calculator provides estimates based on current rates. Consult with a conveyancer for exact figures.
+          </div>
+        </>
+      ) : (
+        <div className="mt-8 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-6 text-sm text-slate-500">
+          Enter your details and hit calculate to see duty, concessions, and a full cost breakdown.
         </div>
-        <div className="flex items-center justify-between">
-          <span>Stamp duty (base)</span>
-          <span>{formatCurrency(results.breakdown.base)}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span>Transfer fee</span>
-          <span>{formatCurrency(results.breakdown.transferFee)}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span>Mortgage registration</span>
-          <span>{formatCurrency(results.breakdown.mortgageReg)}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span>Legal fees (est.)</span>
-          <span>{formatCurrency(results.breakdown.legalFees)}</span>
-        </div>
-      </div>
+      )}
     </div>
   )
 }

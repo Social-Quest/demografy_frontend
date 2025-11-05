@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Users } from 'lucide-react'
 import CustomSelect from '../../components/CustomSelect.jsx'
-import { NumberInput, ResultCard, formatCurrency } from './utils.jsx'
+import { NumberInput, ResultCard, CalculateButton, BreakdownSection, ImprovementTipsSection, formatCurrency } from './utils.jsx'
+import { calculateBorrowing } from './calculations.js'
 
 function BorrowingPowerCalculator() {
   const [income, setIncome] = useState(100000)
@@ -10,39 +11,61 @@ function BorrowingPowerCalculator() {
   const [debts, setDebts] = useState(0)
   const [dependents, setDependents] = useState(0)
   const [deposit, setDeposit] = useState(100000)
+  const [results, setResults] = useState(null)
 
-  const results = useMemo(() => {
-    const totalIncome = income + otherIncome
-    const monthlyIncome = totalIncome / 12
-    const minLivingExpenses = 2000 + dependents * 500
-    const monthlyExpenses = Math.max(expenses, minLivingExpenses)
-    const netSurplus = monthlyIncome - monthlyExpenses - debts
-    const incomeMultiple = totalIncome * 6
-    const assessmentRate = 0.095
-    const loanTermYears = 30
-    const monthlyRate = assessmentRate / 12
-    const paymentPeriods = loanTermYears * 12
-    const maxLoanServiceability = (netSurplus * (Math.pow(1 + monthlyRate, paymentPeriods) - 1)) /
-      (monthlyRate * Math.pow(1 + monthlyRate, paymentPeriods))
-    const maxLoan = Math.max(0, Math.min(incomeMultiple, maxLoanServiceability))
-    const propertyBudget = maxLoan + deposit
+  const handleCalculate = () => {
+    const calculation = calculateBorrowing({ income, otherIncome, expenses, debts, dependents, deposit })
 
-    const currentRate = 0.065
-    const currentMonthlyRate = currentRate / 12
-    const repayment = maxLoan * (currentMonthlyRate * Math.pow(1 + currentMonthlyRate, paymentPeriods)) /
-      (Math.pow(1 + currentMonthlyRate, paymentPeriods) - 1)
-    const dti = maxLoan / totalIncome
+    setResults({
+      maxLoan: calculation.maxLoan,
+      propertyBudget: calculation.propertyBudget,
+      repayment: calculation.monthlyRepayment,
+      dti: calculation.dti,
+      netSurplus: calculation.netSurplus,
+      monthlyIncome: calculation.monthlyIncome,
+      monthlyExpenses: calculation.totalExpenses,
+      debts: calculation.debts,
+    })
+  }
 
-    return {
-      maxLoan,
-      propertyBudget,
-      repayment,
-      dti,
-      netSurplus,
-      monthlyIncome,
-      monthlyExpenses,
-    }
-  }, [income, otherIncome, expenses, debts, dependents, deposit])
+  const serviceabilityItems = results
+    ? [
+      { label: 'Gross monthly income', value: results.monthlyIncome, isNegative: false },
+      { label: 'Monthly expenses', value: results.monthlyExpenses, isNegative: true },
+      { label: 'Existing debt repayments', value: results.debts || 0, isNegative: true },
+      { label: 'Available for mortgage', value: results.netSurplus, isNegative: false, isTotal: false},
+      {
+        label: 'Debt-to-income ratio',
+        value: results.dti,
+        isNegative: false,
+        isTotal: true,
+        formatValue: (val) => `${val.toFixed(1)}x`,
+      },
+    ]
+    : []
+
+  const improvementTips = [
+    {
+      label: 'Increase gross income by $10k',
+      detail: `Potential extra borrowing ${formatCurrency(60000)}`,
+      icon: '📈',
+    },
+    {
+      label: 'Trim monthly expenses by $500',
+      detail: `Frees up roughly ${formatCurrency(75000)} in capacity`,
+      icon: '💰',
+    },
+    {
+      label: 'Clear existing debt commitments',
+      detail: `Could borrow ${formatCurrency(debts * 12 * 5)} more`,
+      icon: '💳',
+    },
+    {
+      label: 'Extend loan term to 30 years',
+      detail: 'Maximizes serviceability',
+      icon: '⏰',
+    },
+  ]
 
   return (
     <div className="rounded-3xl bg-white p-8 shadow-xl">
@@ -74,30 +97,29 @@ function BorrowingPowerCalculator() {
         <NumberInput label="Deposit available" prefix="$" value={deposit} onChange={setDeposit} />
       </div>
 
-      <dl className="mt-8 grid gap-4 md:grid-cols-3">
-        <ResultCard title="Maximum loan" value={formatCurrency(results.maxLoan)} />
-        <ResultCard title="Property budget" value={formatCurrency(results.propertyBudget)} helper="Loan + deposit" />
-        <ResultCard title="Monthly repayment" value={formatCurrency(results.repayment)} helper="@ 6.5%" />
-      </dl>
+      <CalculateButton onClick={handleCalculate}>Calculate borrowing power</CalculateButton>
 
-      <div className="mt-6 rounded-2xl bg-slate-50 p-5 text-sm text-slate-600">
-        <div className="flex items-center justify-between">
-          <span>Debt-to-income ratio</span>
-          <span className="font-semibold text-primary">{results.dti.toFixed(1)}x</span>
+      {results ? (
+        <>
+          <dl className="mt-8 grid gap-4 md:grid-cols-3">
+            <ResultCard title="Maximum loan" value={formatCurrency(results.maxLoan)} />
+            <ResultCard title="Property budget" value={formatCurrency(results.propertyBudget)} helper="Loan + deposit" />
+            <ResultCard title="Monthly repayment" value={formatCurrency(results.repayment)} helper="@ 6.5%" />
+          </dl>
+
+          <BreakdownSection title="Serviceability assessment" items={serviceabilityItems} />
+
+          <ImprovementTipsSection title="Ways to improve your borrowing power" tips={improvementTips} />
+
+          <div className="mt-6 rounded-2xl border border-amber-100 bg-amber-50 p-5 text-sm text-amber-700">
+            <strong className="font-semibold">Note:</strong> This is an estimate only. Actual borrowing capacity varies between lenders and depends on your credit history, employment stability, and other factors. Banks typically assess at a higher interest rate (buffer) than the current rate.
+          </div>
+        </>
+      ) : (
+        <div className="mt-8 rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-6 text-sm text-slate-500">
+          Add your income, expenses, and deposit to estimate borrowing power and lender buffers.
         </div>
-        <div className="flex items-center justify-between">
-          <span>Monthly income</span>
-          <span>{formatCurrency(results.monthlyIncome)}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span>Monthly expenses</span>
-          <span>-{formatCurrency(results.monthlyExpenses)}</span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span>Available for mortgage</span>
-          <span className="font-semibold text-slate-800">{formatCurrency(results.netSurplus)}</span>
-        </div>
-      </div>
+      )}
     </div>
   )
 }

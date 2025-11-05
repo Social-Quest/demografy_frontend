@@ -58,7 +58,7 @@ const audiences = [
 
 function Who() {
   return (
-    <main className="bg-white py-20 md:py-24 " id="integrations">
+    <main className="bg-white py-20 md:py-24 " id="use-case">
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-12 px-4 md:px-6 lg:grid lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center">
         <div className="space-y-6 text-left">
           <span className="inline-flex items-center gap-2 rounded-sm bg-[#ede9fe] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">

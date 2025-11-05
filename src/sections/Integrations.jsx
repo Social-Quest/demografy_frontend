@@ -31,7 +31,7 @@ const integrationFeatures = [
 
 function Integrations() {
   return (
-    <section className="bg-[#f9fafb] py-20 md:py-24">
+    <section className="bg-[#f9fafb] py-20 md:py-24" id="features">
       <div className="mx-auto w-full max-w-[1200px] px-4 md:px-6">
         <div className="text-center">
           <FadeInUp delay={0.1}>

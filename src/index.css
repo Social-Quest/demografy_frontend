@@ -17,6 +17,15 @@ html {
   .hover\:text-primary:hover { color: #8b5cf6; }
   .bg-primary { background-color: #8b5cf6; }
   .border-primary { border-color: #8b5cf6; }
+  
+  /* Hide scrollbar but keep scroll functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none; 
+  }
 }
 
 @keyframes scroll {

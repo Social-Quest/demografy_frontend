@@ -5,11 +5,11 @@ import menuIcon from '../assets/viewBox.svg'
 import closeIcon from '../assets/close.svg'
 
 const navigation = [
+  { id: 'hero', label: 'Home', route: '/' },
   { id: 'features', label: 'Features' },
   { id: 'use-case', label: 'Use Case' },
   { id: 'integrations', label: 'Integration' },
   { id: 'pricing', label: 'Pricing' },
-  { id: 'blog', label: 'Blog' },
   { id: 'career', label: 'Career', route: '/career' },
   { id: 'property-calculator', label: 'Property Calculator', route: '/calculators' },
 ]
@@ -39,7 +39,10 @@ function Header() {
     }
     const el = document.getElementById(sectionId)
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // Calculate offset for fixed header based on screen size
+      const baseOffset = window.innerWidth >= 1024 ? 100 : window.innerWidth >= 768 ? 80 : 70
+      const targetPosition = el.getBoundingClientRect().top + window.scrollY - baseOffset
+      window.scrollTo({ top: Math.max(0, targetPosition), behavior: 'smooth' })
     }
   }
 
