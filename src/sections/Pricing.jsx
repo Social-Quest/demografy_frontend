@@ -3,7 +3,7 @@ import pricingBG from '../assets/pricingBG.png'
 import GradientButton from '../components/GradientButton.jsx'
 import checkIcon from '../assets/arrowLeftPurple.svg'
 import trueIcon from '../assets/true.svg'
-import priceHero from '../assets/price.jpg'
+import priceHero from '../assets/dashboard.png'
 import { useNavigate } from 'react-router-dom'
 import { submitEarlyAccessEmail } from '../services/authApi.js'
 
