@@ -22,7 +22,7 @@ export default function PropertyCalculator() {
   }, [])
 
   return (
-    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.08),_transparent_55%)] py-20 md:py-28">
+    <section className="relative overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(124,58,237,0.08),_transparent_55%)] py-20 md:py-28 pb-16 md:pb-20">
       <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-12 px-4 md:px-6">
         <header className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full bg-[#ede9fe] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">

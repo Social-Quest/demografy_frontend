@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import GradientButton from './GradientButton.jsx'
 import menuIcon from '../assets/viewBox.svg'
 import closeIcon from '../assets/close.svg'
+import logo from '../assets/logo.svg'
 
 const navigation = [
   { id: 'hero', label: 'Home', route: '/' },
@@ -53,17 +54,17 @@ function Header() {
         <div className="flex min-w-0 flex-1 items-center">
           <button
             type="button"
-            className="flex items-center gap-3 cursor-pointer"
+            className="flex items-center cursor-pointer"
             onClick={() => {
               navigate('/')
               closeMenu()
             }}
           >
-            <span className="relative flex h-10 w-10 items-center justify-center rounded-full bg-[linear-gradient(135deg,#9b72f7_0%,_#8b5cf6_100%)]">
-              <span className="absolute inset-1 rounded-full bg-white/95" />
-              <span className="relative flex h-4 w-4 items-center justify-center rounded-full bg-[linear-gradient(135deg,#9b72f7_0%,_#8b5cf6_100%)]" />
-            </span>
-            <span className="text-lg font-semibold text-slate-900">Demografy</span>
+            <img 
+              src={logo} 
+              alt="Demografy Logo" 
+              className="h-9 w-auto"
+            />
           </button>
         </div>
 

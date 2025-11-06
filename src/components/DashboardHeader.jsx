@@ -6,6 +6,7 @@ import menuIcon from '../assets/viewBox.svg'
 import closeIcon from '../assets/close.svg'
 import { getCurrentUser, logout } from '../services/authApi.js'
 import { getUser } from '../utils/tokenStorage.js'
+import logo from '../assets/logo.svg'
 
 function DashboardHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -89,11 +90,11 @@ function DashboardHeader() {
         {/* Left: Logo */}
         <div className="flex min-w-0 flex-1 items-center">
           <Link to="/" className="flex items-center gap-2.5 md:gap-3" onClick={closeMenu}>
-            <span className="relative flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-[linear-gradient(135deg,#9b72f7_0%,_#8b5cf6_100%)]">
-              <span className="absolute inset-0.5 md:inset-1 rounded-full bg-white/95" />
-              <span className="relative flex h-3 w-3 md:h-4 md:w-4 items-center justify-center rounded-full bg-[linear-gradient(135deg,#9b72f7_0%,_#8b5cf6_100%)]" />
-            </span>
-            <span className="text-base md:text-lg font-semibold text-slate-900">Demografy</span>
+            <img 
+              src={logo} 
+              alt="Demografy Logo" 
+              className="h-9 w-auto"
+            />
           </Link>
         </div>
 

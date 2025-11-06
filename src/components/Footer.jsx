@@ -17,7 +17,7 @@ function Footer() {
 
         {/* Text */}
         <p className="text-sm text-secondary md:text-base">
-          Designed and built with love • All rights reserved Andrea Montini | Copyright© 2024
+          © 2025 Demografy. All rights reserved.
         </p>
 
       </div>

@@ -23,9 +23,9 @@ const plans = [
     },
     {
         name: 'The Investor',
-        price: 'Coming Soon',
-        cadence: '',
-        description: 'Best value',
+        price: 'A$ 19.90',
+        cadence: '/mo',
+        description: 'Coming Soon',
         features: [
             'Everything in Scout, plus:',
             'Unlimited Suburb Comparisons',
@@ -38,8 +38,8 @@ const plans = [
     },
     {
         name: 'The Agency',
-        price: 'Coming Soon',
-        cadence: '',
+        price: 'A$ 49.90',
+        cadence: '/mo',
         features: [
             'Everything in Investor, plus',
             'White-Labelled Reports',
@@ -99,7 +99,7 @@ function Pricing() {
                 </div>
 
                 <div className="mt-14 grid gap-8 lg:grid-cols-3">
-                    {plans.map((plan) => {
+                    {plans.map((plan, index) => {
                         if (plan.popular) {
                             return (
                                 <div key={plan.name} className="animated-border lg:scale-105">
@@ -109,7 +109,7 @@ function Pricing() {
                                                 <p className="text-lg font-semibold text-slate-900">{plan.name}</p>
                                                 <span className="rounded-sm bg-[#ede9fe] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#7C3AED]">
                                                     <span className="h-1.5 w-1.5 rounded-full bg-[#8b5cf6] inline-block mr-2" />
-                                                    Best Value
+                                                    Coming Soon
                                                 </span>
                                             </div>
                                             <div className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
@@ -142,9 +142,15 @@ function Pricing() {
                                     className="flex h-full flex-col rounded-[32px] border border-[#e5e7eb] bg-[#f9fafb] p-8 shadow-md transition md:pt-10 lg:scale-95 border border-[#e3daf7]"
                                 >
                                     <div className="space-y-4">
-                                        <div className="flex items-center justify-between">
-                                            <p className="text-lg font-semibold text-slate-900">{plan.name}</p>
-                                        </div>
+                                    <div className="flex items-center justify-between">
+                                                <p className="text-lg font-semibold text-slate-900">{plan.name}</p>
+                                                {index !== 0 && (
+                                                    <span className="rounded-sm bg-[#ede9fe] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#7C3AED]">
+                                                        <span className="h-1.5 w-1.5 rounded-full bg-[#8b5cf6] inline-block mr-2" />
+                                                        Coming Soon
+                                                    </span>
+                                                )}
+                                            </div>
                                         <div className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
                                             {plan.price}
                                             <span className="text-4xl font-medium text-[#9CA3AF]">{plan.cadence}</span>
