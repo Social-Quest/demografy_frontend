@@ -2,6 +2,7 @@ import './App.css'
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import ScrollToTop from './components/ScrollToTop.jsx'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import Calculators from './pages/Calculators.jsx'
@@ -24,6 +25,7 @@ function App() {
 
   return (
     <div className={`min-h-screen text-slate-900 ${isAuthRoute || isDashboardRoute ? '' : 'pt-16 md:pt-24'}`}>
+      <ScrollToTop />
       {!isAuthRoute && !isDashboardRoute ? <Header /> : null}
       <Routes>
         <Route path="/" element={<Home />} />

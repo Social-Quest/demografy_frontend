@@ -1,14 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import GradientButton from '../../components/GradientButton.jsx'
 import AuthLayout from '../../components/auth/AuthLayout.jsx'
 import AuthInput from '../../components/auth/AuthInput.jsx'
 import { register as registerRequest } from '../../services/authApi.js'
 import { signupSchema, parseYupErrors } from '../../utils/validationSchemas.js'
+import { getToken } from '../../utils/tokenStorage.js'
 import { ValidationError } from 'yup'
 
 function Signup() {
   const navigate = useNavigate()
+  
+  useEffect(() => {
+    const token = getToken()
+    if (token) {
+      navigate('/dashboard', { replace: true })
+    }
+  }, [navigate])
   const [formValues, setFormValues] = useState({
     fullName: '',
     email: '',

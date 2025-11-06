@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LogOut, User, Edit, ChevronDown, Lock } from 'lucide-react'
 import menuIcon from '../assets/viewBox.svg'
@@ -89,13 +89,13 @@ function DashboardHeader() {
       <div className="flex w-full items-center px-4 py-3 md:px-6 md:py-4 lg:px-8">
         {/* Left: Logo */}
         <div className="flex min-w-0 flex-1 items-center">
-          <Link to="/" className="flex items-center gap-2.5 md:gap-3" onClick={closeMenu}>
+          <div className="flex items-center gap-2.5 md:gap-3">
             <img 
               src={logo} 
               alt="Demografy Logo" 
               className="h-9 w-auto"
             />
-          </Link>
+          </div>
         </div>
 
         {/* Right: Actions */}

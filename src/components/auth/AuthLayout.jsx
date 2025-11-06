@@ -1,11 +1,27 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import logo from '../../assets/logo.svg'
 
 function AuthLayout({ title, subtitle, children, footerLinks = [] }) {
+  const navigate = useNavigate()
+
   return (
     <main className="min-h-screen bg-[#f8faff]">
       <div className="mx-auto flex min-h-screen w-full max-w-[700px] flex-col justify-center px-4 py-12 md:px-6">
         <section className="w-full rounded-[32px] border border-[#e5e7eb] bg-white p-8 shadow-md md:p-12">
           <header className="mb-8 space-y-3">
+            <div className="flex items-center justify-center mb-4">
+              <button
+                type="button"
+                className="flex items-center cursor-pointer"
+                onClick={() => navigate('/')}
+              >
+                <img 
+                  src={logo} 
+                  alt="Demografy Logo" 
+                  className="h-9 w-auto"
+                />
+              </button>
+            </div>
             <span className="inline-flex items-center gap-2 rounded-full bg-[#ede9fe] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
               <span className="h-1.5 w-1.5 rounded-full bg-[#8b5cf6]" /> Secure Portal
             </span>

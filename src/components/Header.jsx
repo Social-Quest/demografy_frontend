@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import GradientButton from './GradientButton.jsx'
 import menuIcon from '../assets/viewBox.svg'
 import closeIcon from '../assets/close.svg'
@@ -18,6 +18,7 @@ const navigation = [
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const navigate = useNavigate()
+  const location = useLocation()
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev)
   const closeMenu = () => setIsMenuOpen(false)
@@ -33,11 +34,35 @@ function Header() {
       document.body.style.overflow = ''
     }
   }, [isMenuOpen])
+  
   const handleScrollTo = (sectionId, route) => {
-    if (route) {
+    // Special handling for Home - always scroll to top
+    if (route === '/' && sectionId === 'hero') {
+      if (location.pathname !== '/') {
+        // Not on home page, navigate to home (ScrollToTop will handle scrolling)
+        navigate('/')
+      } else {
+        // Already on home page, scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+      return
+    }
+    
+    // Handle other routes (Career, Calculator, etc.)
+    if (route && route !== '/') {
       navigate(route)
       return
     }
+    
+    // If we're not on the home page, navigate to home first with the section ID
+    if (location.pathname !== '/') {
+      // Store section ID in sessionStorage for Home component to pick up
+      sessionStorage.setItem('scrollToSection', sectionId)
+      navigate('/')
+      return
+    }
+    
+    // If we're already on home page, scroll to the section
     const el = document.getElementById(sectionId)
     if (el) {
       // Calculate offset for fixed header based on screen size

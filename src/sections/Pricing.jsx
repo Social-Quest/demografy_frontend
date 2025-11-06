@@ -186,7 +186,7 @@ function Pricing() {
                     ))}
                 </div>
 
-                <div id="pricing-cta" className="relative overflow-hidden rounded-[36px] bg-white mt-10 p-8 md:p-14 scroll-mt-[140px] md:scroll-mt-[160px] lg:scroll-mt-[200px]">
+                <div id="pricing-cta" className="relative overflow-hidden rounded-[36px] backdrop-blur-xl bg-white/70 border border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] mt-10 p-8 md:p-14 scroll-mt-[140px] md:scroll-mt-[160px] lg:scroll-mt-[200px]">
                     <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center">
                         <span className="inline-flex items-center gap-2 rounded-full bg-[#ede9fe] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
                             <span className="h-1.5 w-1.5 rounded-full bg-[#8b5cf6]" /> Ready?
@@ -224,7 +224,7 @@ function Pricing() {
                         </form>
                         {status === 'success' ? (
                             <p className="text-sm font-medium text-emerald-600">
-                                Thanks! You’re on the list. We’ll reach out soon.
+                                Thanks! You're on the list. We'll reach out soon.
                             </p>
                         ) : null}
                         {status === 'error' && errorMessage ? (
@@ -232,7 +232,7 @@ function Pricing() {
                         ) : null}
                     </div>
 
-                    <div className="mt-12 overflow-hidden rounded-[24px] border border-white/60">
+                    <div className="mt-12 overflow-hidden rounded-[24px] backdrop-blur-lg bg-white/40 border border-white/30 shadow-[0_8px_32px_0_rgba(31,38,135,0.2)]">
                         <img src={priceHero} alt="Analytics dashboard preview" className="w-full object-cover" />
                     </div>
                 </div>

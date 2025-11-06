@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import GradientButton from '../components/GradientButton.jsx'
+import logo from '../assets/logo.svg'
 
 function Career() {
   useEffect(() => {
@@ -17,8 +18,12 @@ function Career() {
           </span>
           <h1 className="mt-5 text-4xl font-semibold tracking-wide leading-tight text-slate-900 md:text-6xl">
             Analytics Engineer
-            <span className="block text-3xl font-semibold text-[#9CA3AF] md:text-5xl">
-              Demografy
+            <span className="block mt-2 flex justify-center">
+              <img 
+                src={logo} 
+                alt="Demografy Logo" 
+                className="h-10 w-auto md:h-14"
+              />
             </span>
           </h1>
         </div>
