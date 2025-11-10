@@ -14,7 +14,7 @@ const testimonials = [
         role: 'Buyer’s Agent',
         icon: company1,
         company: 'INTERCOM',
-        customerImg: customer1,
+        customerImg: customer2,
     },
     {
         quote:
@@ -23,7 +23,7 @@ const testimonials = [
         role: 'Home-owner & investor',
         icon: company2,
         company: 'Abstract',
-        customerImg: customer2,
+        customerImg: customer1,
     },
 ]
 
@@ -38,7 +38,7 @@ function Testimonials() {
     }
 
     return (
-        <section className="bg-[#F3F4F6] py-20 md:py-24" >
+        <section className="bg-[#F3F4F6] py-20 md:py-24" id="testimonials">
             <div className="mx-auto w-full max-w-[1200px] px-4 md:px-6">
 
 
@@ -80,7 +80,7 @@ function Testimonials() {
                         </ScaleIn>
                     ))}
                 </div>
-                <div id="integrations" className="grid w-full gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center mt-20">
+                <div  className="grid w-full gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-center mt-20">
                     <SlideInLeft delay={0.5}>
                         <div className="space-y-6">
                             <FadeInUp delay={0.6}>

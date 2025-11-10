@@ -126,7 +126,7 @@ function Login() {
               name="remember"
               checked={formValues.remember}
               onChange={handleChange}
-              className="h-4 w-4 rounded border border-[#d1d5db] text-primary focus:ring-primary/40 cursor-pointer"
+              className="h-4 w-4 rounded border border-[#d1d5db] bg-white text-[#8b5cf6] accent-[#8b5cf6] focus:ring-[#8b5cf6]/40 cursor-pointer"
             />
             Remember me
           </label>

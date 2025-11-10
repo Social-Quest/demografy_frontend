@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
   ChevronDown,
@@ -20,11 +20,22 @@ import DashboardHeader from '../components/DashboardHeader.jsx'
 // Parse KPI definitions from JSON
 const kpiDefinitions = parseKPIDefinitions()
 
+const KPI_INDEX_FIELDS = {
+  prosperityScore: 'prosperityScoreIndex',
+  diversityIndex: 'diversityIndexIndex',
+  migrationFootprint: 'migrationFootprintIndex',
+  learningLevel: 'learningLevelIndex',
+  socialHousing: 'socialHousingIndex',
+  residentEquity: 'residentEquityIndex',
+  rentalAccess: 'rentalAccessIndex',
+  residentAnchor: 'residentAnchorIndex',
+}
+
 function Dashboard() {
   // Lazy load and transform master data only once when component mounts
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [filters, setFilters] = useState({ state: '', lga: '', region: '', populationMin: '', populationMax: '' })
+  const [filters, setFilters] = useState({ state: '', lga: '', region: '', populationMin: 1000, populationMax: '' })
 
   // Load data asynchronously to avoid blocking
   useEffect(() => {
@@ -44,6 +55,9 @@ function Dashboard() {
   const [hoveredKPI, setHoveredKPI] = useState(null)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 50
+  const topScrollRef = useRef(null)
+  const tableScrollRef = useRef(null)
+  const [tableScrollWidth, setTableScrollWidth] = useState(0)
 
   const uniqueStates = useMemo(() => [...new Set(data.map((d) => d.state))].sort(), [data])
   const uniqueLGAs = useMemo(() => [...new Set(data.map((d) => d.lga))].sort(), [data])
@@ -63,32 +77,15 @@ function Dashboard() {
       return filtered.map((item) => ({ ...item, compositeScore: 0, finalRanking: null }))
     }
 
-    // Pre-calculate min/max for each KPI once (performance optimization)
-    const kpiMinMax = {}
-    selectedKPIs.forEach((kpi) => {
-      const values = filtered.map((d) => d[kpi]).filter((v) => v != null && !isNaN(v))
-      if (values.length > 0) {
-        kpiMinMax[kpi] = {
-          min: Math.min(...values),
-          max: Math.max(...values),
-        }
-      } else {
-        kpiMinMax[kpi] = { min: 0, max: 1 }
-      }
-    })
-
-    // Calculate composite scores using pre-calculated min/max
     const withScores = filtered.map((item) => {
-      let totalScore = 0
-      selectedKPIs.forEach((kpi) => {
-        const { min, max } = kpiMinMax[kpi]
-        const denominator = max - min || 1
-        let normalized = (item[kpi] - min) / denominator
-        if (!kpiDefinitions[kpi].higher) normalized = 1 - normalized
-        totalScore += normalized
-      })
-      const compositeScore = totalScore / selectedKPIs.length
-      return { ...item, compositeScore }
+      const totalScore = selectedKPIs.reduce((sum, kpi) => {
+        const indexField = KPI_INDEX_FIELDS[kpi]
+        if (!indexField) return sum
+        const value = Number(item[indexField]) || 0
+        return sum + value
+      }, 0)
+
+      return { ...item, compositeScore: totalScore }
     })
 
     withScores.sort((a, b) => b.compositeScore - a.compositeScore)
@@ -116,6 +113,45 @@ function Dashboard() {
   useEffect(() => {
     setCurrentPage(1)
   }, [filters, selectedKPIs, sortConfig])
+
+  useEffect(() => {
+    const updateWidths = () => {
+      if (!tableScrollRef.current) return
+      const tableWidth = tableScrollRef.current.scrollWidth
+      const viewportWidth = tableScrollRef.current.clientWidth
+      setTableScrollWidth(Math.max(tableWidth, viewportWidth))
+    }
+
+    updateWidths()
+    window.addEventListener('resize', updateWidths)
+    return () => window.removeEventListener('resize', updateWidths)
+  }, [paginatedData, selectedKPIs])
+
+  useEffect(() => {
+    const top = topScrollRef.current
+    const bottom = tableScrollRef.current
+    if (!top || !bottom) return
+
+    const handleTopScroll = () => {
+      if (bottom.scrollLeft !== top.scrollLeft) {
+        bottom.scrollLeft = top.scrollLeft
+      }
+    }
+
+    const handleBottomScroll = () => {
+      if (top.scrollLeft !== bottom.scrollLeft) {
+        top.scrollLeft = bottom.scrollLeft
+      }
+    }
+
+    top.addEventListener('scroll', handleTopScroll)
+    bottom.addEventListener('scroll', handleBottomScroll)
+
+    return () => {
+      top.removeEventListener('scroll', handleTopScroll)
+      bottom.removeEventListener('scroll', handleBottomScroll)
+    }
+  }, [paginatedData, selectedKPIs])
 
   const handleSort = (key) => {
     setSortConfig((prev) => ({
@@ -281,8 +317,8 @@ function Dashboard() {
           {/* Header and Summary Cards */}
           <section>
             <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-2 xl:grid-cols-4">
-              <SummaryCard icon={<MapIcon className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />} label="Total areas" value={dataWithRankings.length} />
-              <SummaryCard icon={<TrendingUp className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />} label="Active KPIs" value={selectedKPIs.length} />
+              <SummaryCard icon={<MapIcon className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />} label="Total Subhurbs / SA2" value={dataWithRankings.length} />
+                <SummaryCard icon={<TrendingUp className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />} label="Active KPIs" value={selectedKPIs.length} />
               <SummaryCard
                 icon={<FilterIcon className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />}
                 label="Active filters"
@@ -296,7 +332,7 @@ function Dashboard() {
                       {sortedData.length ? sortedData[0].sa2Name : 'No suburb'}
                     </p>
                   </div>
-                  <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-gradient-to-br from-green-500 to-emerald-500 text-xs md:text-sm font-semibold text-white flex-shrink-0 ml-2">
+                  <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-white text-xs md:text-sm font-semibold text-white flex-shrink-0 ml-2">
                     #{sortedData.length ? sortedData[0].finalRanking : '-'}
                   </div>
                 </div>
@@ -306,12 +342,19 @@ function Dashboard() {
 
           {/* Table section */}
           <section className="rounded-2xl md:rounded-3xl border border-[#e5e7eb] bg-white overflow-hidden shadow-sm">
-            <div className="overflow-x-auto -mx-4 md:mx-0">
+            <div
+              ref={topScrollRef}
+              className="overflow-x-auto -mx-4 md:mx-0 mb-2 cursor-grab active:cursor-grabbing"
+              aria-label="Scroll table horizontally"
+            >
+              <div style={{ width: tableScrollWidth }} className="h-4" />
+            </div>
+            <div className="overflow-x-auto -mx-4 md:mx-0 scrollbar-hide" ref={tableScrollRef}>
               <table className="w-full min-w-[720px] text-xs md:text-sm">
                 <thead className="bg-slate-50 text-left font-semibold text-slate-600">
                   <tr>
                     <SortableHeader label="Rank" sticky onClick={() => handleSort('finalRanking')} sortConfig={sortConfig} sortKey="finalRanking" />
-                    <SortableHeader label="SA2" onClick={() => handleSort('sa2Name')} sortConfig={sortConfig} sortKey="sa2Name" />
+                    <SortableHeader label="Total Subhurbs / SA2" onClick={() => handleSort('sa2Name')} sortConfig={sortConfig} sortKey="sa2Name" />
                     <SortableHeader label="Population" onClick={() => handleSort('population')} sortConfig={sortConfig} sortKey="population">
                       <Users className="h-3.5 w-3.5 md:h-4 md:w-4" />
                     </SortableHeader>
@@ -320,7 +363,7 @@ function Dashboard() {
                       return (
                         <SortableHeader
                           key={kpi}
-                          label={kpiDefinitions[kpi].shortName}
+                          label={kpiDefinitions[kpi].name}
                           onClick={() => handleSort(kpi)}
                           sortConfig={sortConfig}
                           sortKey={kpi}

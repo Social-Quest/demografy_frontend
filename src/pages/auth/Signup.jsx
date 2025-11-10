@@ -139,7 +139,7 @@ function Signup() {
               name="agree"
               checked={formValues.agree}
               onChange={handleChange}
-              className="mt-1 h-4 w-4 rounded border border-[#d1d5db] text-primary focus:ring-primary/40 cursor-pointer"
+              className="mt-1 h-4 w-4 rounded border border-[#d1d5db] bg-white text-[#8b5cf6] accent-[#8b5cf6] cursor-pointer"
             />
             <span>
               I agree to receive onboarding updates and product tips. View our{' '}

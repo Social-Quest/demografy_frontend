@@ -83,6 +83,16 @@ export function transformMasterData() {
     row.rentalAccess = parseKPIValue(item.kpi_7_val)
     row.residentAnchor = parseKPIValue(item.kpi_8_val)
 
+    // KPI indexes for ranking calculations
+    row.prosperityScoreIndex = parseKPIValue(item.kpi_1_ind)
+    row.diversityIndexIndex = parseKPIValue(item.kpi_2_ind)
+    row.migrationFootprintIndex = parseKPIValue(item.kpi_3_ind)
+    row.learningLevelIndex = parseKPIValue(item.kpi_4_ind)
+    row.socialHousingIndex = parseKPIValue(item.kpi_5_ind)
+    row.residentEquityIndex = parseKPIValue(item.kpi_6_ind)
+    row.rentalAccessIndex = parseKPIValue(item.kpi_7_ind)
+    row.residentAnchorIndex = parseKPIValue(item.kpi_8_ind)
+
     result.push(row)
   }
 

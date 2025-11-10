@@ -9,7 +9,7 @@ const navigation = [
   { id: 'hero', label: 'Home', route: '/' },
   { id: 'features', label: 'Features' },
   { id: 'use-case', label: 'Use Case' },
-  { id: 'integrations', label: 'Integration' },
+  { id: 'testimonials', label: 'Testimonials' },
   { id: 'pricing', label: 'Pricing' },
   { id: 'career', label: 'Career', route: '/career' },
   { id: 'property-calculator', label: 'Property Calculator', route: '/calculators' },

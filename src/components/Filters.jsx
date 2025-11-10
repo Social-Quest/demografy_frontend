@@ -55,7 +55,7 @@ function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions 
             <span className="text-xs font-medium text-[#6b7280]">Population min</span>
             <input
               type="number"
-              value={filters.populationMin}
+              value={filters.populationMin ?? 1000}
               onChange={(event) => setFilters((prev) => ({ ...prev, populationMin: event.target.value }))}
               className="mt-1 w-full rounded-xl border border-[#e5e7eb] bg-slate-50 px-3 py-2 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer"
             />
@@ -73,7 +73,7 @@ function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions 
 
         <button
           type="button"
-          onClick={() => setFilters({ state: '', lga: '', region: '', populationMin: '', populationMax: '' })}
+          onClick={() => setFilters({ state: '', lga: '', region: '', populationMin: 1000, populationMax: '' })}
           className="text-xs font-medium text-primary hover:text-[#6d28d9] cursor-pointer"
         >
           Clear filters

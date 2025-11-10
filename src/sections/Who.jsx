@@ -1,56 +1,58 @@
-import who1 from '../assets/who1.svg'
-import who2 from '../assets/who2.svg'
-import who3 from '../assets/who3.svg'
-import who4 from '../assets/who4.svg'
-import who5 from '../assets/who5.svg'
-import who6 from '../assets/who6.svg'
-import who7 from '../assets/who7.svg'
-import who8 from '../assets/who8.svg'
-import who9 from '../assets/who9.svg'
+import {
+  House,
+  TrendingUp,
+  Building,
+  Hammer,
+  PiggyBank,
+  Users,
+  Search,
+  RefreshCcw,
+  BarChart3,
+} from 'lucide-react'
 
 const audiences = [
   {
-    icon: who1,
+    icon: House,
     title: 'First-Home Buyers',
     subtitle: 'Decide best suburb',
   },
   {
-    icon: who2,
+    icon: TrendingUp,
     title: 'Investors',
     subtitle: 'Growth versus risk',
   },
   {
-    icon: who3,
+    icon: Building,
     title: 'Real Estate Agents',
     subtitle: 'Business building',
   },
   {
-    icon: who4,
+    icon: Hammer,
     title: 'Property Developers',
     subtitle: 'Best regions to focus',
   },
   {
-    icon: who5,
+    icon: PiggyBank,
     title: 'Mortgage Brokers',
     subtitle: 'Add-on services',
   },
   {
-    icon: who6,
+    icon: Users,
     title: 'Families Relocating',
     subtitle: 'Choose the best area',
   },
   {
-    icon: who7,
+    icon: Search,
     title: "Buyer’s Agent",
     subtitle: 'Analytics within reach',
   },
   {
-    icon: who8,
+    icon: RefreshCcw,
     title: 'Home Upgraders',
     subtitle: 'Decide when to sell',
   },
   {
-    icon: who9,
+    icon: BarChart3,
     title: 'Data Geeks',
     subtitle: 'Play around with data',
   },
@@ -74,20 +76,22 @@ function Who() {
         </div>
 
         <div className="grid w-full gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {audiences.map((audience) => (
+          {audiences.map((audience) => {
+            const Icon = audience.icon
+            return (
             <article
               key={audience.title}
               className="flex h-full flex-col gap-3 rounded-[26px] border border-[#e5e7eb] bg-[#f9fafb] px-4 py-5"
             >
-              <div className="inline-flex h-11 w-11 items-center justify-start rounded-xl">
-                <img src={audience.icon} alt={audience.title} className="h-full w-full" />
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white shadow-sm">
+                <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-black">{audience.title}</h2>
                 <p className="mt-1 text-sm text-[#4b5563] font-medium" >{audience.subtitle}</p>
               </div>
             </article>
-          ))}
+          )})}
         </div>
       </div>
     </main>
