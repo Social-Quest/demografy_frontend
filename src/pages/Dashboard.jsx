@@ -276,8 +276,8 @@ function Dashboard() {
                       >
                         {IconComponent && <IconComponent className="h-3.5 w-3.5 md:h-4 md:w-4 text-slate-600 flex-shrink-0" />}
                         <div className="min-w-0">
-                          <p className="text-[10px] md:text-xs font-semibold text-slate-900 truncate">{kpi.shortName}</p>
-                          <p className="text-[9px] md:text-[10px] text-[#6b7280] truncate">{kpi.name}</p>
+                          <p className="text-[10px] md:text-xs font-semibold text-slate-900 truncate">{kpi.name}</p>
+                          <p className="text-[9px] md:text-[10px] text-[#6b7280] trncate">{kpi.name}</p>
                         </div>
                       </motion.button>
                       <div className="relative flex-shrink-0">
@@ -317,7 +317,7 @@ function Dashboard() {
           {/* Header and Summary Cards */}
           <section>
             <div className="grid gap-3 md:gap-4 grid-cols-2 md:grid-cols-2 xl:grid-cols-4">
-              <SummaryCard icon={<MapIcon className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />} label="Total Subhurbs / SA2" value={dataWithRankings.length} />
+              <SummaryCard icon={<MapIcon className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />} label="Total Suburb/SA2" value={dataWithRankings.length} />
                 <SummaryCard icon={<TrendingUp className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />} label="Active KPIs" value={selectedKPIs.length} />
               <SummaryCard
                 icon={<FilterIcon className="h-6 w-6 md:h-7 md:w-7 text-slate-400" />}
@@ -354,7 +354,7 @@ function Dashboard() {
                 <thead className="bg-slate-50 text-left font-semibold text-slate-600">
                   <tr>
                     <SortableHeader label="Rank" sticky onClick={() => handleSort('finalRanking')} sortConfig={sortConfig} sortKey="finalRanking" />
-                    <SortableHeader label="Total Subhurbs / SA2" onClick={() => handleSort('sa2Name')} sortConfig={sortConfig} sortKey="sa2Name" />
+                    <SortableHeader label="Suburb/SA2" onClick={() => handleSort('sa2Name')} sortConfig={sortConfig} sortKey="sa2Name" />
                     <SortableHeader label="Population" onClick={() => handleSort('population')} sortConfig={sortConfig} sortKey="population">
                       <Users className="h-3.5 w-3.5 md:h-4 md:w-4" />
                     </SortableHeader>
