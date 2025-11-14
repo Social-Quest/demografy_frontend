@@ -1,8 +1,9 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { ChevronDown } from 'lucide-react'
 
-function CustomSelect({ value, onChange, options, placeholder = 'Select...' }) {
+function CustomSelect({ value, onChange, options, placeholder = 'Select...', searchable = false }) {
   const [isOpen, setIsOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const dropdownRef = useRef(null)
 
   useEffect(() => {
@@ -21,7 +22,20 @@ function CustomSelect({ value, onChange, options, placeholder = 'Select...' }) {
     }
   }, [isOpen])
 
+  useEffect(() => {
+    if (!isOpen && searchTerm) {
+      setSearchTerm('')
+    }
+  }, [isOpen, searchTerm])
+
   const selectedOption = options.find((opt) => opt.value === value)
+  const filteredOptions = useMemo(() => {
+    if (!searchable || !searchTerm.trim()) {
+      return options
+    }
+    const lowerSearch = searchTerm.toLowerCase()
+    return options.filter((option) => option.label.toLowerCase().includes(lowerSearch))
+  }, [options, searchTerm, searchable])
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -40,23 +54,38 @@ function CustomSelect({ value, onChange, options, placeholder = 'Select...' }) {
 
       {isOpen && (
         <div className="absolute z-50 mt-1 w-full rounded-xl border border-[#e5e7eb] bg-white shadow-lg max-h-60 overflow-auto">
-          {options.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => {
-                onChange({ target: { value: option.value } })
-                setIsOpen(false)
-              }}
-              className={`w-full text-left px-3 py-2 text-sm transition-colors cursor-pointer ${
-                value === option.value
-                  ? 'bg-primary/10 text-primary font-medium'
-                  : 'text-slate-900 hover:bg-slate-50'
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
+          {searchable && (
+            <div className="sticky top-0 z-10 bg-white p-2 border-b border-[#e5e7eb]">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
+                placeholder="Search..."
+                className="w-full rounded-lg border border-[#d1d5db] px-2 py-1 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
+              />
+            </div>
+          )}
+          {filteredOptions.length ? (
+            filteredOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  onChange({ target: { value: option.value } })
+                  setIsOpen(false)
+                }}
+                className={`w-full text-left px-3 py-2 text-sm transition-colors cursor-pointer ${
+                  value === option.value
+                    ? 'bg-primary/10 text-primary font-medium'
+                    : 'text-slate-900 hover:bg-slate-50'
+                }`}
+              >
+                {option.label}
+              </button>
+            ))
+          ) : (
+            <div className="px-3 py-2 text-sm text-slate-500">No matches found</div>
+          )}
         </div>
       )}
     </div>

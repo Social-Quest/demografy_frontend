@@ -20,6 +20,14 @@ import DashboardHeader from '../components/DashboardHeader.jsx'
 // Parse KPI definitions from JSON
 const kpiDefinitions = parseKPIDefinitions()
 
+const KPIS_HIGHER_IS_BETTER_OVERRIDE = ['socialHousing', 'residentEquity', 'rentalAccess', 'residentAnchor']
+
+KPIS_HIGHER_IS_BETTER_OVERRIDE.forEach((key) => {
+  if (kpiDefinitions[key]) {
+    kpiDefinitions[key].higher = true
+  }
+})
+
 const KPI_INDEX_FIELDS = {
   prosperityScore: 'prosperityScoreIndex',
   diversityIndex: 'diversityIndexIndex',
@@ -32,10 +40,9 @@ const KPI_INDEX_FIELDS = {
 }
 
 function Dashboard() {
-  // Lazy load and transform master data only once when component mounts
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [filters, setFilters] = useState({ state: '', lga: '', region: '', populationMin: 1000, populationMax: '' })
+  const [filters, setFilters] = useState({ state: '', lga: '', region: '', sa2: '', populationMin: 1000, populationMax: '' })
 
   // Load data asynchronously to avoid blocking
   useEffect(() => {
@@ -59,15 +66,44 @@ function Dashboard() {
   const tableScrollRef = useRef(null)
   const [tableScrollWidth, setTableScrollWidth] = useState(0)
 
-  const uniqueStates = useMemo(() => [...new Set(data.map((d) => d.state))].sort(), [data])
-  const uniqueLGAs = useMemo(() => [...new Set(data.map((d) => d.lga))].sort(), [data])
-  const uniqueRegions = useMemo(() => [...new Set(data.map((d) => d.region))].sort(), [data])
+  const uniqueStates = useMemo(() => [...new Set(data.map((d) => d.state).filter(Boolean))].sort(), [data])
+
+  const uniqueLGAs = useMemo(() => {
+    const source = filters.state ? data.filter((d) => d.state === filters.state) : data
+    return [...new Set(source.map((d) => d.lga).filter(Boolean))].sort()
+  }, [data, filters.state])
+
+  const uniqueRegions = useMemo(() => [...new Set(data.map((d) => d.region).filter(Boolean))].sort(), [data])
+
+  const uniqueSA2s = useMemo(() => {
+    let source = data
+    if (filters.state) {
+      source = source.filter((d) => d.state === filters.state)
+    }
+    if (filters.lga) {
+      source = source.filter((d) => d.lga === filters.lga)
+    }
+    return [...new Set(source.map((d) => d.sa2Name).filter(Boolean))].sort()
+  }, [data, filters.state, filters.lga])
+
+  useEffect(() => {
+    if (filters.lga && !uniqueLGAs.includes(filters.lga)) {
+      setFilters((prev) => ({ ...prev, lga: '', sa2: '' }))
+    }
+  }, [filters.lga, uniqueLGAs])
+
+  useEffect(() => {
+    if (filters.sa2 && !uniqueSA2s.includes(filters.sa2)) {
+      setFilters((prev) => ({ ...prev, sa2: '' }))
+    }
+  }, [filters.sa2, uniqueSA2s])
 
   const dataWithRankings = useMemo(() => {
     const filtered = data.filter((item) => {
       if (filters.state && item.state !== filters.state) return false
       if (filters.lga && item.lga !== filters.lga) return false
       if (filters.region && item.region !== filters.region) return false
+      if (filters.sa2 && item.sa2Name !== filters.sa2) return false
       if (filters.populationMin && item.population < Number(filters.populationMin)) return false
       if (filters.populationMax && item.population > Number(filters.populationMax)) return false
       return true
@@ -240,6 +276,7 @@ function Dashboard() {
               uniqueStates={uniqueStates}
               uniqueLGAs={uniqueLGAs}
               uniqueRegions={uniqueRegions}
+              uniqueSA2s={uniqueSA2s}
             />
 
             <section className="rounded-2xl md:rounded-3xl border border-[#e5e7eb] bg-white p-4 md:p-6 shadow-sm">
@@ -498,7 +535,7 @@ function SortableHeader({ label, sortConfig, sortKey, onClick, sticky = false, c
       <button
         type="button"
         onClick={onClick}
-        className={`flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold transition-colors ${
+        className={`flex items-center gap-1 md:gap-2 text-xs md:text-sm font-semibold transition-colors cursor-pointer ${
           isActive ? 'text-primary' : 'text-slate-700 hover:text-primary'
         }`}
       >
