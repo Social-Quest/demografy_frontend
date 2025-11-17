@@ -100,7 +100,7 @@ function CustomSelect({ value, onChange, options, placeholder = 'Select...', sea
               <button
                 type="button"
                 onClick={(e) => handleRemove(opt.value, e)}
-                className="hover:bg-primary/20 rounded p-0.5 transition-colors cursor-pointer"
+                className="hover:bg-primary/20 rounded p-0.5 transition-colors cursor-pointer "
               >
                 <X className="h-3 w-3" />
               </button>
