@@ -26,8 +26,8 @@ function Hero() {
             </FadeIn>
             <FadeInUp delay={0.2}>
               <h1 className="mt-5 text-4xl font-semibold tracking-wide leading-none text-slate-900 md:text-6xl">
-                <span className="text-primary">Australian property insights,</span><br className="hidden md:block" /> insights,
-                <br /> propelled by data.
+                <span className="text-primary">Australian property insights,</span><br className="hidden md:block" />
+                propelled by data.
               </h1>
             </FadeInUp>
             <FadeInUp delay={0.3}>

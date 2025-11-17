@@ -1,32 +1,20 @@
 import CustomSelect from './CustomSelect.jsx'
 
 function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions, uniqueSA2s }) {
-  const stateOptions = [
-    { value: '', label: 'All states' },
-    ...uniqueStates.map((state) => ({ value: state, label: state })),
-  ]
+  const stateOptions = uniqueStates.map((state) => ({ value: state, label: state }))
 
-  const lgaOptions = [
-    { value: '', label: 'All LGAs' },
-    ...uniqueLGAs.map((lga) => ({ value: lga, label: lga })),
-  ]
+  const lgaOptions = uniqueLGAs.map((lga) => ({ value: lga, label: lga }))
 
-  const sa2Options = [
-    { value: '', label: 'All suburbs / SA2s' },
-    ...uniqueSA2s.map((sa2) => ({ value: sa2, label: sa2 })),
-  ]
-  const regionOptions = [
-    { value: '', label: 'All regions' },
-    ...uniqueRegions.map((region) => ({ value: region, label: region })),
-  ]
+  const sa2Options = uniqueSA2s.map((sa2) => ({ value: sa2, label: sa2 }))
+  const regionOptions = uniqueRegions.map((region) => ({ value: region, label: region }))
 
   const handleStateChange = (event) => {
     const value = event.target.value
     setFilters((prev) => ({
       ...prev,
       state: value,
-      lga: '',
-      sa2: '',
+      lga: [],
+      sa2: [],
     }))
   }
 
@@ -35,7 +23,7 @@ function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions,
     setFilters((prev) => ({
       ...prev,
       lga: value,
-      sa2: '',
+      sa2: [],
     }))
   }
 
@@ -58,8 +46,9 @@ function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions,
             value={filters.state}
             onChange={handleStateChange}
             options={stateOptions}
-            placeholder="All states"
-          searchable
+            placeholder="Select states"
+            searchable
+            multiple
           />
         </label>
 
@@ -69,8 +58,9 @@ function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions,
             value={filters.lga}
             onChange={handleLGAChange}
             options={lgaOptions}
-            placeholder="All LGAs"
-          searchable
+            placeholder="Select LGAs"
+            searchable
+            multiple
           />
         </label>
 
@@ -80,8 +70,9 @@ function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions,
             value={filters.sa2}
             onChange={handleSA2Change}
             options={sa2Options}
-            placeholder="All suburbs / SA2s"
-          searchable
+            placeholder="Select suburbs / SA2s"
+            searchable
+            multiple
           />
         </label>
 
@@ -91,7 +82,9 @@ function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions,
             value={filters.region}
             onChange={(event) => setFilters((prev) => ({ ...prev, region: event.target.value }))}
             options={regionOptions}
-            placeholder="All regions"
+            placeholder="Select regions"
+            searchable
+            multiple
           />
         </label>
 
@@ -119,7 +112,7 @@ function Filters({ filters, setFilters, uniqueStates, uniqueLGAs, uniqueRegions,
 
         <button
           type="button"
-          onClick={() => setFilters({ state: '', lga: '', region: '', sa2: '', populationMin: 1000, populationMax: '' })}
+          onClick={() => setFilters({ state: [], lga: [], region: [], sa2: [], populationMin: 1000, populationMax: '' })}
           className="text-xs font-medium text-primary hover:text-[#6d28d9] cursor-pointer"
         >
           Clear filters

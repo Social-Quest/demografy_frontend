@@ -42,7 +42,7 @@ const KPI_INDEX_FIELDS = {
 function Dashboard() {
   const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
-  const [filters, setFilters] = useState({ state: '', lga: '', region: '', sa2: '', populationMin: 1000, populationMax: '' })
+  const [filters, setFilters] = useState({ state: [], lga: [], region: [], sa2: [], populationMin: 1000, populationMax: '' })
 
   // Load data asynchronously to avoid blocking
   useEffect(() => {
@@ -69,7 +69,8 @@ function Dashboard() {
   const uniqueStates = useMemo(() => [...new Set(data.map((d) => d.state).filter(Boolean))].sort(), [data])
 
   const uniqueLGAs = useMemo(() => {
-    const source = filters.state ? data.filter((d) => d.state === filters.state) : data
+    const stateArray = Array.isArray(filters.state) ? filters.state : []
+    const source = stateArray.length > 0 ? data.filter((d) => stateArray.includes(d.state)) : data
     return [...new Set(source.map((d) => d.lga).filter(Boolean))].sort()
   }, [data, filters.state])
 
@@ -77,33 +78,51 @@ function Dashboard() {
 
   const uniqueSA2s = useMemo(() => {
     let source = data
-    if (filters.state) {
-      source = source.filter((d) => d.state === filters.state)
+    const stateArray = Array.isArray(filters.state) ? filters.state : []
+    const lgaArray = Array.isArray(filters.lga) ? filters.lga : []
+    if (stateArray.length > 0) {
+      source = source.filter((d) => stateArray.includes(d.state))
     }
-    if (filters.lga) {
-      source = source.filter((d) => d.lga === filters.lga)
+    if (lgaArray.length > 0) {
+      source = source.filter((d) => lgaArray.includes(d.lga))
     }
     return [...new Set(source.map((d) => d.sa2Name).filter(Boolean))].sort()
   }, [data, filters.state, filters.lga])
 
   useEffect(() => {
-    if (filters.lga && !uniqueLGAs.includes(filters.lga)) {
-      setFilters((prev) => ({ ...prev, lga: '', sa2: '' }))
+    const lgaArray = Array.isArray(filters.lga) ? filters.lga : []
+    const invalidLGAs = lgaArray.filter((lga) => !uniqueLGAs.includes(lga))
+    if (invalidLGAs.length > 0) {
+      setFilters((prev) => ({
+        ...prev,
+        lga: lgaArray.filter((lga) => uniqueLGAs.includes(lga)),
+        sa2: [],
+      }))
     }
   }, [filters.lga, uniqueLGAs])
 
   useEffect(() => {
-    if (filters.sa2 && !uniqueSA2s.includes(filters.sa2)) {
-      setFilters((prev) => ({ ...prev, sa2: '' }))
+    const sa2Array = Array.isArray(filters.sa2) ? filters.sa2 : []
+    const invalidSA2s = sa2Array.filter((sa2) => !uniqueSA2s.includes(sa2))
+    if (invalidSA2s.length > 0) {
+      setFilters((prev) => ({
+        ...prev,
+        sa2: sa2Array.filter((sa2) => uniqueSA2s.includes(sa2)),
+      }))
     }
   }, [filters.sa2, uniqueSA2s])
 
   const dataWithRankings = useMemo(() => {
     const filtered = data.filter((item) => {
-      if (filters.state && item.state !== filters.state) return false
-      if (filters.lga && item.lga !== filters.lga) return false
-      if (filters.region && item.region !== filters.region) return false
-      if (filters.sa2 && item.sa2Name !== filters.sa2) return false
+      const stateArray = Array.isArray(filters.state) ? filters.state : []
+      const lgaArray = Array.isArray(filters.lga) ? filters.lga : []
+      const regionArray = Array.isArray(filters.region) ? filters.region : []
+      const sa2Array = Array.isArray(filters.sa2) ? filters.sa2 : []
+      
+      if (stateArray.length > 0 && !stateArray.includes(item.state)) return false
+      if (lgaArray.length > 0 && !lgaArray.includes(item.lga)) return false
+      if (regionArray.length > 0 && !regionArray.includes(item.region)) return false
+      if (sa2Array.length > 0 && !sa2Array.includes(item.sa2Name)) return false
       if (filters.populationMin && item.population < Number(filters.populationMin)) return false
       if (filters.populationMax && item.population > Number(filters.populationMax)) return false
       return true
@@ -248,7 +267,16 @@ function Dashboard() {
     }
   }
 
-  const activeFilterCount = Object.values(filters).filter(Boolean).length
+  const activeFilterCount = useMemo(() => {
+    let count = 0
+    if (Array.isArray(filters.state) && filters.state.length > 0) count++
+    if (Array.isArray(filters.lga) && filters.lga.length > 0) count++
+    if (Array.isArray(filters.region) && filters.region.length > 0) count++
+    if (Array.isArray(filters.sa2) && filters.sa2.length > 0) count++
+    if (filters.populationMin && Number(filters.populationMin) !== 1000) count++
+    if (filters.populationMax) count++
+    return count
+  }, [filters])
 
   if (isLoading) {
     return (
