@@ -79,39 +79,35 @@ function CustomSelect({ value, onChange, options, placeholder = 'Select...', sea
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="mt-1 w-full flex items-center justify-between rounded-xl border border-[#e5e7eb] bg-slate-50 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer hover:bg-slate-100 transition-colors min-h-[42px]"
+        className="mt-1 w-full flex items-center justify-between rounded-xl border border-[#e5e7eb] bg-slate-50 px-3 py-2 text-sm text-slate-900 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer hover:bg-slate-100 transition-colors min-h-[42px] "
       >
-        <div className="flex-1 flex flex-wrap gap-1 items-center min-w-0">
-          {multiple && selectedOptions.length > 0 ? (
-            selectedOptions.slice(0, 2).map((opt) => (
-              <span
-                key={opt.value}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-medium"
-              >
-                {opt.label}
-                <button
-                  type="button"
-                  onClick={(e) => handleRemove(opt.value, e)}
-                  className="hover:bg-primary/20 rounded p-0.5"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </span>
-            ))
-          ) : null}
-          {multiple && selectedOptions.length > 2 ? (
-            <span className="text-xs text-slate-600">+{selectedOptions.length - 2} more</span>
-          ) : null}
-          {(!multiple || selectedOptions.length === 0) && (
-            <span className={selectedValue || (multiple && selectedOptions.length > 0) ? 'text-slate-900' : 'text-[#6b7280]'}>
-              {displayText}
-            </span>
-          )}
-        </div>
+        <span className={selectedValue || (multiple && selectedOptions.length > 0) ? 'text-slate-900' : 'text-[#6b7280] '}>
+          {displayText}
+        </span>
         <ChevronDown
           className={`h-4 w-4 text-slate-500 transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
         />
       </button>
+
+      {multiple && selectedOptions.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {selectedOptions.map((opt) => (
+            <span
+              key={opt.value}
+              className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-primary/10 text-primary text-xs font-medium cursor-pointer"
+            >
+              {opt.label}
+              <button
+                type="button"
+                onClick={(e) => handleRemove(opt.value, e)}
+                className="hover:bg-primary/20 rounded p-0.5 transition-colors cursor-pointer"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
 
       {isOpen && (
         <div className="absolute z-50 mt-1 w-full rounded-xl border border-[#e5e7eb] bg-white shadow-lg max-h-60 overflow-auto">
