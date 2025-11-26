@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D991CJFQNH"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-D991CJFQNH');
+    </script>
+
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +23,7 @@
     <!-- Open Graph / Social Media Meta Tags -->
     <meta property="og:title" content="Australian Property Data & Suburb Growth Insights | Demografy" />
     <meta property="og:description" content="Ditch the guesswork. Demografy provides data-driven insights on every Australian suburb. Compare growth, prices, livability & 50+ metrics. Get early access." />
-    <meta property="og:image" content="/dashboard.png" />
+    <meta property="og:image" content="https://demografy.com/dashboard.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://demografy.com" />
     
@@ -22,8 +31,9 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Australian Property Data & Suburb Growth Insights | Demografy" />
     <meta name="twitter:description" content="Ditch the guesswork. Demografy provides data-driven insights on every Australian suburb. Compare growth, prices, livability & 50+ metrics. Get early access." />
-    <meta name="twitter:image" content="/dashboard.png" /> 
+    <meta name="twitter:image" content="https://demografy.com/dashboard.png" /> 
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
