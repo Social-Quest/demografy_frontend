@@ -46,6 +46,8 @@ const kpiMapping = {
   kpi_6_val: 'residentEquity',
   kpi_7_val: 'rentalAccess',
   kpi_8_val: 'residentAnchor',
+  kpi_9_val: 'mobilityPotential',
+  kpi_10_val: 'youngFamily',
 }
 
 /**
@@ -82,6 +84,8 @@ export function transformMasterData() {
     row.residentEquity = parseKPIValue(item.kpi_6_val)
     row.rentalAccess = parseKPIValue(item.kpi_7_val)
     row.residentAnchor = parseKPIValue(item.kpi_8_val)
+    row.mobilityPotential = parseKPIValue(item.kpi_9_val)
+    row.youngFamily = parseKPIValue(item.kpi_10_val)
 
     // KPI indexes for ranking calculations
     row.prosperityScoreIndex = parseKPIValue(item.kpi_1_ind)
@@ -92,6 +96,8 @@ export function transformMasterData() {
     row.residentEquityIndex = parseKPIValue(item.kpi_6_ind)
     row.rentalAccessIndex = parseKPIValue(item.kpi_7_ind)
     row.residentAnchorIndex = parseKPIValue(item.kpi_8_ind)
+    row.mobilityPotentialIndex = parseKPIValue(item.kpi_9_ind)
+    row.youngFamilyIndex = parseKPIValue(item.kpi_10_ind)
 
     result.push(row)
   }

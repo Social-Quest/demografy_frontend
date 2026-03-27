@@ -207,22 +207,22 @@
     "Index Calculation": ""
   },
   {
-    "Field Name": "",
-    "Source": "",
-    "KPI Name": "",
+    "Field Name": "kpi_9_val",
+    "Source": "11",
+    "KPI Name": "Household Mobility Potential",
     "KPI calculation": "",
-    "Metric note": "",
-    "Ranking": "",
-    "Index Calculation": ""
+    "Metric note": "Measures the potential for households to move within the area. High values indicate higher turnover and dynamic population changes. Metric varies from 0 to 100%.",
+    "Ranking": "High to low",
+    "Index Calculation": "(X-min)/(max-min)"
   },
   {
-    "Field Name": "",
-    "Source": "",
-    "KPI Name": "",
+    "Field Name": "kpi_10_val",
+    "Source": "12",
+    "KPI Name": "Young Family Indicator",
     "KPI calculation": "",
-    "Metric note": "",
-    "Ranking": "",
-    "Index Calculation": ""
+    "Metric note": "Indicates the proportion of households identified as young families. Metric varies from 0 to 100%.",
+    "Ranking": "High to low",
+    "Index Calculation": "(X-min)/(max-min)"
   },
   {
     "Field Name": "Final score = Sum of all indices",

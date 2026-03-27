@@ -37,6 +37,8 @@ const KPI_INDEX_FIELDS = {
   residentEquity: 'residentEquityIndex',
   rentalAccess: 'rentalAccessIndex',
   residentAnchor: 'residentAnchorIndex',
+  mobilityPotential: 'mobilityPotentialIndex',
+  youngFamily: 'youngFamilyIndex',
 }
 
 function Dashboard() {
