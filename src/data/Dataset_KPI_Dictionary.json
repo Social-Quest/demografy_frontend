@@ -225,6 +225,42 @@
     "Index Calculation": "(X-min)/(max-min)"
   },
   {
+    "Field Name": "kpi_11_val",
+    "Source": "3",
+    "KPI Name": "Disadvantage Concentration Index",
+    "KPI calculation": "Q1 x 100 / (Q1 + Q2 + Q3 + Q4)",
+    "Metric note": "The proportion of households falling in the most disadvantaged SEIFA quartile (Q1), identifying suburbs with the highest concentration of socio-economic vulnerability",
+    "Ranking": "Low to high",
+    "Index Calculation": "(max-X)/(max-min)"
+  },
+  {
+    "Field Name": "kpi_12_val",
+    "Source": "4",
+    "KPI Name": "Retiree & Downsizer Index",
+    "KPI calculation": "(Age_65-74 + Age_75-84 + Age_85+) x 100 / Tot_P_P",
+    "Metric note": "The proportion of residents aged 65 and over, identifying suburbs with strong demand for low-maintenance housing, aged-care services and downsizer developments.",
+    "Ranking": "High to low",
+    "Index Calculation": "(X-min)/(max-min)"
+  },
+  {
+    "Field Name": "kpi_13_val",
+    "Source": "7",
+    "KPI Name": "Housing Density Mix Index",
+    "KPI calculation": "(Flat/Apartment + Semi-detached/Townhouse) x 100 / Total_Total",
+    "Metric note": "The proportion of dwellings that are flats, apartments, townhouses or semi-detached, identifying suburbs oriented toward medium- and high-density housing stock",
+    "Ranking": "High to low",
+    "Index Calculation": "(X-min)/(max-min)"
+  },
+  {
+    "Field Name": "kpi_14_val",
+    "Source": "9",
+    "KPI Name": "Premium Rental Index",
+    "KPI calculation": "(R_650-749 + R_750-849 + R_850-949 + R_950+) x 100 / Tot_Tot",
+    "Metric note": "The proportion of rented dwellings with weekly rent of $650 or above, identifying suburbs with strong premium rental yield potential",
+    "Ranking": "High to low",
+    "Index Calculation": "(X-min)/(max-min)"
+  },
+  {
     "Field Name": "Final score = Sum of all indices",
     "Source": "",
     "KPI Name": "",

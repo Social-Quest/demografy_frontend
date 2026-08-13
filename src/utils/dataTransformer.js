@@ -48,6 +48,10 @@ const kpiMapping = {
   kpi_8_val: 'residentAnchor',
   kpi_9_val: 'mobilityPotential',
   kpi_10_val: 'youngFamily',
+  kpi_11_val: 'disadvantageConcentration',
+  kpi_12_val: 'retireeDownsizer',
+  kpi_13_val: 'housingDensityMix',
+  kpi_14_val: 'premiumRental',
 }
 
 /**
@@ -86,6 +90,10 @@ export function transformMasterData() {
     row.residentAnchor = parseKPIValue(item.kpi_8_val)
     row.mobilityPotential = parseKPIValue(item.kpi_9_val)
     row.youngFamily = parseKPIValue(item.kpi_10_val)
+    row.disadvantageConcentration = parseKPIValue(item.kpi_11_val)
+    row.retireeDownsizer = parseKPIValue(item.kpi_12_val)
+    row.housingDensityMix = parseKPIValue(item.kpi_13_val)
+    row.premiumRental = parseKPIValue(item.kpi_14_val)
 
     // KPI indexes for ranking calculations
     row.prosperityScoreIndex = parseKPIValue(item.kpi_1_ind)
@@ -98,6 +106,10 @@ export function transformMasterData() {
     row.residentAnchorIndex = parseKPIValue(item.kpi_8_ind)
     row.mobilityPotentialIndex = parseKPIValue(item.kpi_9_ind)
     row.youngFamilyIndex = parseKPIValue(item.kpi_10_ind)
+    row.disadvantageConcentrationIndex = parseKPIValue(item.kpi_11_ind)
+    row.retireeDownsizerIndex = parseKPIValue(item.kpi_12_ind)
+    row.housingDensityMixIndex = parseKPIValue(item.kpi_13_ind)
+    row.premiumRentalIndex = parseKPIValue(item.kpi_14_ind)
 
     result.push(row)
   }

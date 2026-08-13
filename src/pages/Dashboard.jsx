@@ -39,6 +39,10 @@ const KPI_INDEX_FIELDS = {
   residentAnchor: 'residentAnchorIndex',
   mobilityPotential: 'mobilityPotentialIndex',
   youngFamily: 'youngFamilyIndex',
+  disadvantageConcentration: 'disadvantageConcentrationIndex',
+  retireeDownsizer: 'retireeDownsizerIndex',
+  housingDensityMix: 'housingDensityMixIndex',
+  premiumRental: 'premiumRentalIndex',
 }
 
 function Dashboard() {
@@ -255,17 +259,20 @@ function Dashboard() {
   }
 
   const getPercentileColor = (value, kpi) => {
-    const percentile = getPercentileWidth(value, kpi)
+    if (value === null || value === undefined || isNaN(value) || value === 0) {
+      return 'bg-gray-200';
+    }
+    const percentile = getPercentileWidth(value, kpi);
     if (percentile >= 80) {
-      return 'bg-gradient-to-r from-green-500 to-green-600'
+      return 'bg-gradient-to-r from-green-500 to-green-600';
     } else if (percentile >= 60) {
-      return 'bg-gradient-to-r from-green-400 to-yellow-400'
+      return 'bg-gradient-to-r from-green-400 to-yellow-400';
     } else if (percentile >= 40) {
-      return 'bg-gradient-to-r from-yellow-400 to-orange-400'
+      return 'bg-gradient-to-r from-yellow-400 to-orange-400';
     } else if (percentile >= 20) {
-      return 'bg-gradient-to-r from-orange-400 to-red-400'
+      return 'bg-gradient-to-r from-orange-400 to-red-400';
     } else {
-      return 'bg-gradient-to-r from-red-500 to-red-600'
+      return 'bg-gradient-to-r from-red-500 to-red-600';
     }
   }
 
