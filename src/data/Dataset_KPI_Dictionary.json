@@ -261,6 +261,24 @@
     "Index Calculation": "(X-min)/(max-min)"
   },
   {
+    "Field Name": "kpi_15_val",
+    "Source": "Master query",
+    "KPI Name": "Investment Potential Score",
+    "KPI calculation": "(kpi_1_val*25%)+(kpi_4_val*35%)+(kpi_7_val*25%)+((100-kpi_5_val)*15%)",
+    "Metric note": "Combines Prosperity, Learning Level, Rental Access and Social Housing into one investment score. Gives investors one easy score instead of analysing four KPIs separately. This is the first composite KPI. Investment Potential Score=(Prosperity Score*25%)+(Learning Level*35%)+(Rental Access*25%)+(Social Housing*15%)",
+    "Ranking": "High to low",
+    "Index Calculation": "(X-min)/(max-min)"
+  },
+  {
+    "Field Name": "kpi_16_val",
+    "Source": "4",
+    "KPI Name": "Generational Stability Score",
+    "KPI calculation": "(Aust_Both_parents_born_Aust / Tot_P_Tot_resp)*100",
+    "Metric note": "The share of a suburb's population who are third-generation-plus Australian - born in Australia, with both parents also born in Australia. A high score points to a long-settled, low-turnover family community.",
+    "Ranking": "High to low",
+    "Index Calculation": "(X-min)/(max-min)"
+  },
+  {
     "Field Name": "Final score = Sum of all indices",
     "Source": "",
     "KPI Name": "",

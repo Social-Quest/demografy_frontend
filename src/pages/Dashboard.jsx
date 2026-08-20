@@ -43,6 +43,8 @@ const KPI_INDEX_FIELDS = {
   retireeDownsizer: 'retireeDownsizerIndex',
   housingDensityMix: 'housingDensityMixIndex',
   premiumRental: 'premiumRentalIndex',
+  investmentPotential: 'investmentPotentialIndex',
+  generationalStability: 'generationalStabilityIndex',
 }
 
 function Dashboard() {
