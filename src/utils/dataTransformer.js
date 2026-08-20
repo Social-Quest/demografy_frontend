@@ -52,6 +52,8 @@ const kpiMapping = {
   kpi_12_val: 'retireeDownsizer',
   kpi_13_val: 'housingDensityMix',
   kpi_14_val: 'premiumRental',
+  kpi_15_val: 'investmentPotential',
+  kpi_16_val: 'generationalStability',
 }
 
 /**
@@ -94,6 +96,8 @@ export function transformMasterData() {
     row.retireeDownsizer = parseKPIValue(item.kpi_12_val)
     row.housingDensityMix = parseKPIValue(item.kpi_13_val)
     row.premiumRental = parseKPIValue(item.kpi_14_val)
+    row.investmentPotential = parseKPIValue(item.kpi_15_val)
+    row.generationalStability = parseKPIValue(item.kpi_16_val)
 
     // KPI indexes for ranking calculations
     row.prosperityScoreIndex = parseKPIValue(item.kpi_1_ind)
@@ -110,6 +114,8 @@ export function transformMasterData() {
     row.retireeDownsizerIndex = parseKPIValue(item.kpi_12_ind)
     row.housingDensityMixIndex = parseKPIValue(item.kpi_13_ind)
     row.premiumRentalIndex = parseKPIValue(item.kpi_14_ind)
+    row.investmentPotentialIndex = parseKPIValue(item.kpi_15_ind)
+    row.generationalStabilityIndex = parseKPIValue(item.kpi_16_ind)
 
     result.push(row)
   }

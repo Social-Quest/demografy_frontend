@@ -32,6 +32,8 @@ const fieldNameToKey = {
   kpi_12_val: "retireeDownsizer",
   kpi_13_val: "housingDensityMix",
   kpi_14_val: "premiumRental",
+  kpi_15_val: "investmentPotential",
+  kpi_16_val: "generationalStability",
 };
 
 // Map KPI names to lucide-react icon components
@@ -50,6 +52,8 @@ const kpiIcons = {
   "Retiree & Downsizer Index": Users,
   "Housing Density Mix Index": Building2,
   "Premium Rental Index": DollarSign,
+  "Investment Potential Score": TrendingUp,
+  "Generational Stability Score": Users,
 };
 
 /**
@@ -217,6 +221,8 @@ export function parseKPIDefinitions() {
         kpi.kpiName.includes("Retiree") ||
         kpi.kpiName.includes("Density") ||
         kpi.kpiName.includes("Premium") ||
+        kpi.kpiName.includes("Generational") ||
+        kpi.kpiName.includes("Stability") ||
         kpi.kpiName.includes("KPI")
       ) {
         return `${safeVal.toFixed(1)}%`;
